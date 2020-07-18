@@ -1,0 +1,42 @@
+package paulevs.corelib.mixin;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.texture.TextureManager;
+import paulevs.corelib.CoreLib;
+import paulevs.corelib.api.ModelRegistry;
+import paulevs.corelib.model.Model;
+import paulevs.corelib.texture.TextureAtlas;
+
+@Mixin(Minecraft.class)
+public class MinecraftMixin {
+	@Shadow
+	public TextureManager textureManager;
+
+	@Inject(method = "init", at = @At("RETURN"))
+	private void onInit(CallbackInfo info) {
+		Collection<Model> models = ModelRegistry.getModels();
+
+		HashSet<String> textures = new HashSet<String>();
+		models.forEach((model) -> {
+			textures.addAll(model.getTextures());
+		});
+
+		CoreLib.blocksAtlas = new TextureAtlas("/terrain.png", textures);
+
+		models.forEach((model) -> {
+			model.init();
+		});
+
+		textures.clear();
+		CoreLib.itemsAtlas = new TextureAtlas("/gui/items.png", textures);
+	}
+}

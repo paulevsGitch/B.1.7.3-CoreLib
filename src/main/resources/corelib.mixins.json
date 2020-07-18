@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "paulevs.corelib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+	"TileRendererMixin",
+	"MinecraftMixin",
+	"TextureManagerMixin",
+	"ItemRendererMixin",
+	"Class556Mixin",
+	"DrawableHelperMixin",
+	"ParticleEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

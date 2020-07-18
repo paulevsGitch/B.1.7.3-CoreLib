@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "corelib",
+  "version": "${version}",
+
+  "name": "CoreLib",
+  "description": "Library for blocks",
+  "authors": [
+    "paulevs"
+  ],
+  "contact": {
+    "issues": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/corelib/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "init": [
+      "paulevs.corelib.CoreLib"
+    ]
+  },
+  "mixins": [
+    "corelib.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}
