@@ -2,6 +2,7 @@ package paulevs.corelib.model;
 
 import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.model.shape.ShapeOBJ;
+import paulevs.corelib.texture.UVPair;
 
 public class ModelOBJ extends Model {
 	private final ShapeOBJ shape;
@@ -35,7 +36,7 @@ public class ModelOBJ extends Model {
 	}
 
 	@Override
-	public boolean hasItem() {
-		return true;
+	public UVPair particleUV() {
+		return getUV("texture");
 	}
 }

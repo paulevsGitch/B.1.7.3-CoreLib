@@ -15,8 +15,13 @@ public abstract class Model {
 
 	private Map<String, TextureInfo> textures = Maps.newHashMap();
 
-	public Model() {
-	}
+	public Model() {}
+	
+	public abstract void renderBlock();
+	
+	public abstract void renderItem();
+	
+	public abstract UVPair particleUV();
 
 	public Model addTexture(String name, String texture) {
 		textures.put(name, new TextureInfo(texture));
@@ -26,12 +31,16 @@ public abstract class Model {
 	public void init() {
 		textures.forEach((name, info) -> { info.init(); });
 	}
-
-	public abstract void renderBlock();
 	
-	public abstract void renderItem();
+	public boolean hasItem()
+	{
+		return true;
+	}
 	
-	public abstract boolean hasItem();
+	public boolean hasBlock()
+	{
+		return true;
+	}
 
 	protected void setTexture(String name)
 	{
