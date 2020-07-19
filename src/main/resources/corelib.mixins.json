@@ -11,7 +11,7 @@
 	"ItemRendererMixin",
 	"Class556Mixin",
 	"DrawableHelperMixin",
-	"ParticleEntityMixin"
+	"TileParticleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
