@@ -27,8 +27,6 @@ public class DoubleNibbleArray extends class_257
 				{
 					this.field_2103[i] = (byte) (bs[var5] & 15 | (i & 15) << 4);
 				}
-
-				field_2103[i << 1] = bs[i];
 			}
 		}
 		else
