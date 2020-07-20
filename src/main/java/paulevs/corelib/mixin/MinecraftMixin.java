@@ -17,26 +17,26 @@ import paulevs.corelib.model.Model;
 import paulevs.corelib.texture.TextureAtlas;
 
 @Mixin(Minecraft.class)
-public class MinecraftMixin {
+public class MinecraftMixin
+{
 	@Shadow
 	public TextureManager textureManager;
 
 	@Inject(method = "init", at = @At("RETURN"))
-	private void onInit(CallbackInfo info) {
-		Collection<Model> models = ModelRegistry.getModels();
-
+	private void onInit(CallbackInfo info)
+	{
+		Collection<Model> models = ModelRegistry.getBlockModels();
 		HashSet<String> textures = new HashSet<String>();
 		models.forEach((model) -> {
 			textures.addAll(model.getTextures());
 		});
-
 		CoreLib.blocksAtlas = new TextureAtlas("/terrain.png", textures);
 
-		models.forEach((model) -> {
-			model.init();
-		});
-
+		models = ModelRegistry.getItemModels();
 		textures.clear();
+		models.forEach((model) -> {
+			textures.addAll(model.getTextures());
+		});
 		CoreLib.itemsAtlas = new TextureAtlas("/gui/items.png", textures);
 	}
 }

@@ -13,10 +13,12 @@ import javax.imageio.ImageIO;
 
 import paulevs.corelib.math.Vec2F;
 
-public class TextureAtlas {
+public class TextureAtlas
+{
 	private static final BufferedImage EMPTY = new BufferedImage(2, 2, BufferedImage.TYPE_INT_ARGB);
 
-	static {
+	static
+	{
 		int magenta = (255 << 24) | (255 << 16) | 255;
 		int black = (255 << 24);
 
@@ -31,7 +33,8 @@ public class TextureAtlas {
 	private final Vec2F pixelSize;
 	private final float size;
 
-	public TextureAtlas(String primal, HashSet<String> textures) {
+	public TextureAtlas(String primal, HashSet<String> textures)
+	{
 		List<ImageInfo> tiles = loadTiles(textures);
 		tiles.add(new ImageInfo(EMPTY, "notile"));
 
@@ -40,18 +43,20 @@ public class TextureAtlas {
 			int b = Math.max(img2.img.getWidth(), img2.img.getHeight());
 			return b - a;
 		});
-		if (primal != null)
-			tiles.add(0, new ImageInfo(loadImage(primal), primal));
+		if (primal != null) tiles.add(0, new ImageInfo(loadImage(primal), primal));
 
 		List<Rect> rects = new ArrayList<Rect>();
 		rects.add(new Rect(0, 0, 16384, 16384));
 
 		Vec2F[] poses = new Vec2F[tiles.size()];
-		for (int i = 0; i < tiles.size(); i++) {
+		for (int i = 0; i < tiles.size(); i++)
+		{
 			Rect possible = rects.get(0);
 			ImageInfo info = tiles.get(i);
-			for (Rect r : rects) {
-				if (r.canFit(info.img.getWidth(), info.img.getHeight())) {
+			for (Rect r : rects)
+			{
+				if (r.canFit(info.img.getWidth(), info.img.getHeight()))
+				{
 					possible = r;
 					break;
 				}
@@ -63,7 +68,8 @@ public class TextureAtlas {
 
 		int sideX = 0;
 		int sideY = 0;
-		for (int i = 0; i < tiles.size(); i++) {
+		for (int i = 0; i < tiles.size(); i++)
+		{
 			ImageInfo info = tiles.get(i);
 			sideX = Math.max((int) poses[i].getX() + info.img.getWidth(), sideX);
 			sideY = Math.max((int) poses[i].getY() + info.img.getHeight(), sideY);
@@ -77,7 +83,8 @@ public class TextureAtlas {
 		pixelSize = new Vec2F(1F / size, 1F / size);
 
 		BufferedImage atlasIMG = new BufferedImage((int) size, (int) size, BufferedImage.TYPE_INT_ARGB);
-		for (int i = 0; i < tiles.size(); i++) {
+		for (int i = 0; i < tiles.size(); i++)
+		{
 			ImageInfo info = tiles.get(i);
 			drawImage(info.img, atlasIMG, (int) poses[i].getX(), (int) poses[i].getY());
 			Vec2F start = new Vec2F(poses[i].getX() / size, poses[i].getY() / size);
@@ -95,131 +102,154 @@ public class TextureAtlas {
 		atlas = new Texture2D(atlasIMG);
 	}
 
-	private void drawImage(BufferedImage img, BufferedImage buffer, int x, int y) {
-		for (int px = 0; px < img.getWidth(); px++) {
+	private void drawImage(BufferedImage img, BufferedImage buffer, int x, int y)
+	{
+		for (int px = 0; px < img.getWidth(); px++)
+		{
 			int bx = x + px;
-			for (int py = 0; py < img.getHeight(); py++) {
+			for (int py = 0; py < img.getHeight(); py++)
+			{
 				int by = y + py;
 				buffer.setRGB(bx, by, img.getRGB(px, py));
 			}
 		}
 	}
 
-	public void bind() {
+	public void bind()
+	{
 		atlas.bind();
 	}
 
-	public UVPair getUV(String texture) {
+	public UVPair getUV(String texture)
+	{
 		UVPair uv = uvs.get(texture);
 		return uv != null ? uv : uvs.get("notile");
 	}
 
-	private List<ImageInfo> loadTiles(HashSet<String> textures) {
+	private List<ImageInfo> loadTiles(HashSet<String> textures)
+	{
 		List<ImageInfo> result = new ArrayList<ImageInfo>();
-		for (String name : textures) {
+		for (String name : textures)
+		{
 			BufferedImage img = loadImage(name);
-			if (img != null)
-				result.add(new ImageInfo(img, name));
+			if (img != null) result.add(new ImageInfo(img, name));
 		}
 		return result;
 	}
 
-	private BufferedImage loadImage(String filename) {
+	private BufferedImage loadImage(String filename)
+	{
 		BufferedImage image = EMPTY;
-		if (filename != null && !filename.isEmpty()) {
-			try {
+		if (filename != null && !filename.isEmpty())
+		{
+			try
+			{
 				InputStream in = getClass().getResourceAsStream(filename);
-				if (in != null) {
+				if (in != null)
+				{
 					image = ImageIO.read(in);
 					in.close();
 				}
-			} catch (IOException e) {
 			}
+			catch (IOException e)
+			{}
 		}
 		return image;
 	}
 
-	private class Rect implements Comparable<Rect> {
+	private class Rect implements Comparable<Rect>
+	{
 		int x;
 		int y;
 		int w;
 		int h;
 
-		Rect(int x, int y, int w, int h) {
+		Rect(int x, int y, int w, int h)
+		{
 			this.x = x;
 			this.y = y;
 			this.w = w;
 			this.h = h;
 		}
 
-		public boolean isZero() {
+		public boolean isZero()
+		{
 			return w == 0 || h == 0;
 		}
 
-		public boolean canFit(int width, int height) {
+		public boolean canFit(int width, int height)
+		{
 			return width <= w && height <= h;
 		}
 
-		private List<Rect> splitX(int dx, int dy) {
+		private List<Rect> splitX(int dx, int dy)
+		{
 			List<Rect> res = new ArrayList<Rect>();
 			Rect a = new Rect(x, y + dy, dx, h - dy);
 			Rect b = new Rect(x + dx, y, w - dx, h);
-			if (!a.isZero())
-				res.add(a);
-			if (!b.isZero())
-				res.add(b);
+			if (!a.isZero()) res.add(a);
+			if (!b.isZero()) res.add(b);
 			return res;
 		}
 
-		private List<Rect> splitY(int dx, int dy) {
+		private List<Rect> splitY(int dx, int dy)
+		{
 			List<Rect> res = new ArrayList<Rect>();
 			Rect a = new Rect(x + dx, y, w - dx, dy);
 			Rect b = new Rect(x, y + dy, w, h - dy);
-			if (!a.isZero())
-				res.add(a);
-			if (!b.isZero())
-				res.add(b);
+			if (!a.isZero()) res.add(a);
+			if (!b.isZero()) res.add(b);
 			return res;
 		}
 
-		public void split(int width, int height, List<Rect> list) {
+		public void split(int width, int height, List<Rect> list)
+		{
 			list.remove(this);
-			if (w - width > h - height) {
+			if (w - width > h - height)
+			{
 				List<Rect> rects = splitX(width, height);
 				list.addAll(rects);
-			} else {
+			}
+			else
+			{
 				List<Rect> rects = splitY(width, height);
 				list.addAll(rects);
 			}
 		}
 
 		@Override
-		public int compareTo(Rect r) {
+		public int compareTo(Rect r)
+		{
 			int a = Math.max(w, h);
 			int b = Math.max(r.w, r.h);
 			return a - b;
 		}
 	}
 
-	private class ImageInfo {
+	private class ImageInfo
+	{
 		public BufferedImage img;
 		public String name;
 
-		public ImageInfo(BufferedImage img, String name) {
+		public ImageInfo(BufferedImage img, String name)
+		{
 			this.img = img;
 			this.name = name;
 		}
 	}
 
-	public Texture2D getTexture() {
+	public Texture2D getTexture()
+	{
 		return atlas;
 	}
 
-	public Vec2F getPixelSize() {
+	public Vec2F getPixelSize()
+	{
 		return pixelSize;
 	}
 
-	public float getSize() {
+	public float getSize()
+	{
 		return size;
 	}
 }

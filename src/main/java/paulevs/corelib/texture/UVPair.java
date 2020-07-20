@@ -4,27 +4,32 @@ import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
 import paulevs.corelib.math.Vec2F;
 
-public class UVPair {
+public class UVPair
+{
 	private final Vec2F start;
 	private final Vec2F end;
 
-	public UVPair() {
+	public UVPair()
+	{
 		this(new Vec2F(0, 0), new Vec2F(1, 1));
 	}
 
-	public UVPair(Vec2F start, Vec2F end) {
+	public UVPair(Vec2F start, Vec2F end)
+	{
 		this.start = start;
 		this.end = end;
 	}
 
-	public Vec2F getStart() {
+	public Vec2F getStart()
+	{
 		return start;
 	}
 
-	public Vec2F getEnd() {
+	public Vec2F getEnd()
+	{
 		return end;
 	}
-	
+
 	public static UVPair getVanillaUV(Tile tile, int side, int meta)
 	{
 		int pos = tile.getTextureForSide(side, meta);

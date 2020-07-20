@@ -3,19 +3,22 @@ package paulevs.corelib.math;
 import java.nio.FloatBuffer;
 import java.util.Locale;
 
-public class Matrix3F {
+public class Matrix3F
+{
 	private static final float[][] RESULT = new float[3][3];
 	private static final Matrix3F ROTATION = new Matrix3F();
 	float[][] data = new float[3][3];
 
-	public static Matrix3F identity() {
+	public static Matrix3F identity()
+	{
 		Matrix3F matrix = new Matrix3F();
 		for (int i = 0; i < 3; i++)
 			matrix.data[i][i] = 1;
 		return matrix;
 	}
 
-	public static Matrix3F makeRotation(Matrix3F matrix, Vec3F axis, float angle) {
+	public static Matrix3F makeRotation(Matrix3F matrix, Vec3F axis, float angle)
+	{
 		float cosT = (float) Math.cos(angle);
 		float nCosT = 1 - cosT;
 		float sinT = (float) Math.sin(angle);
@@ -41,9 +44,9 @@ public class Matrix3F {
 		return matrix;
 	}
 
-	public Matrix3F makeRotation(Vec3F axis, float angle) {
-		if (angle == 0)
-			return identity();
+	public Matrix3F makeRotation(Vec3F axis, float angle)
+	{
+		if (angle == 0) return identity();
 
 		float cosT = (float) Math.cos(angle);
 		float nCosT = 1 - cosT;
@@ -70,28 +73,31 @@ public class Matrix3F {
 		return this;
 	}
 
-	public Matrix3F setIdentity() {
+	public Matrix3F setIdentity()
+	{
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				data[i][j] = i == j ? 1 : 0;
 		return this;
 	}
 
-	public Matrix3F scale(float scale) {
+	public Matrix3F scale(float scale)
+	{
 		for (int x = 0; x < 3; x++)
 			for (int y = 0; y < 3; y++)
 				data[x][y] *= scale;
 		return this;
 	}
 
-	public Matrix3F rotate(Vec3F axis, float angle) {
-		if (angle == 0)
-			return this;
+	public Matrix3F rotate(Vec3F axis, float angle)
+	{
+		if (angle == 0) return this;
 		makeRotation(ROTATION, axis, angle);
 		return this.multiple(ROTATION);
 	}
 
-	public Vec3F multiple(Vec3F input) {
+	public Vec3F multiple(Vec3F input)
+	{
 		float x = input.getX();
 		float y = input.getY();
 		float z = input.getZ();
@@ -103,9 +109,11 @@ public class Matrix3F {
 		return input;
 	}
 
-	public Matrix3F multiple(Matrix3F matrix) {
+	public Matrix3F multiple(Matrix3F matrix)
+	{
 		for (int x = 0; x < 3; x++)
-			for (int y = 0; y < 3; y++) {
+			for (int y = 0; y < 3; y++)
+			{
 				RESULT[x][y] = 0;
 				for (int i = 0; i < 3; i++)
 					RESULT[x][y] += this.data[i][y] * matrix.data[x][i];
@@ -117,21 +125,26 @@ public class Matrix3F {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.format(Locale.ROOT, "[%f, %f, %f]\n[%f, %f, %f]\n[%f, %f, %f]", data[0][0], data[1][0],
 				data[2][0], data[0][1], data[1][1], data[2][1], data[0][2], data[1][2], data[2][2]);
 	}
 
-	public float getValue(int x, int y) {
+	public float getValue(int x, int y)
+	{
 		return data[x][y];
 	}
 
-	public void setValue(int x, int y, float value) {
+	public void setValue(int x, int y, float value)
+	{
 		data[x][y] = value;
 	}
 
-	public void putToBuffer(FloatBuffer buffer) {
-		for (int i = 0; i < 3; i++) {
+	public void putToBuffer(FloatBuffer buffer)
+	{
+		for (int i = 0; i < 3; i++)
+		{
 			buffer.put(data[0][i]);
 			buffer.put(data[1][i]);
 			buffer.put(data[2][i]);
@@ -143,7 +156,8 @@ public class Matrix3F {
 		buffer.flip();
 	}
 
-	public Matrix3F set(Matrix3F worldTransform) {
+	public Matrix3F set(Matrix3F worldTransform)
+	{
 		for (int x = 0; x < 3; x++)
 			for (int y = 0; y < 3; y++)
 				data[x][y] = worldTransform.data[x][y];

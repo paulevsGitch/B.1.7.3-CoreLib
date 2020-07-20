@@ -11,14 +11,17 @@ import net.minecraft.client.render.Tessellator;
 import paulevs.corelib.CoreLib;
 
 @Mixin(DrawableHelper.class)
-public class DrawableHelperMixin {
+public class DrawableHelperMixin
+{
 	@Shadow
 	protected float zOffset;
 
 	@Inject(method = "blit", at = @At("HEAD"), cancellable = true)
-	private void blit(int x, int y, int u, int v, int width, int height, CallbackInfo info) {
+	private void blit(int x, int y, int u, int v, int width, int height, CallbackInfo info)
+	{
 		float size = CoreLib.getAtlasSize();
-		if (size != 256) {
+		if (size != 256)
+		{
 			Tessellator tesselator = Tessellator.INSTANCE;
 			tesselator.start();
 			tesselator.vertex(x, y + height, this.zOffset, u / size, (v + height) / size);

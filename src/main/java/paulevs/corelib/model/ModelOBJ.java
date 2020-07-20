@@ -4,17 +4,20 @@ import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.model.shape.ShapeOBJ;
 import paulevs.corelib.texture.UVPair;
 
-public class ModelOBJ extends Model {
+public class ModelOBJ extends Model
+{
 	private final ShapeOBJ shape;
 
-	public ModelOBJ(String model, String texture) {
+	public ModelOBJ(String model, String texture)
+	{
 		super();
 		this.addTexture("texture", texture);
 		shape = new ShapeOBJ(model);
 	}
 
 	@Override
-	public void renderBlock() {
+	public void renderBlock()
+	{
 		Shape.setLightFromWorld();
 		Shape.setColorFromWorld();
 		Shape.resetOffset();
@@ -22,7 +25,8 @@ public class ModelOBJ extends Model {
 	}
 
 	@Override
-	public void renderItem() {
+	public void renderItem()
+	{
 		Shape.setOffsetItem();
 		Shape.setColorFromWorld();
 		Shape.setLight(1);
@@ -30,13 +34,15 @@ public class ModelOBJ extends Model {
 	}
 
 	@Override
-	public void init() {
+	public void init()
+	{
 		super.init();
 		shape.changeUV(this.getUV("texture"));
 	}
 
 	@Override
-	public UVPair particleUV() {
+	public UVPair particleUV()
+	{
 		return getUV("texture");
 	}
 }

@@ -9,18 +9,25 @@ import net.minecraft.client.texture.TextureManager;
 import paulevs.corelib.CoreLib;
 
 @Mixin(TextureManager.class)
-public class TextureManagerMixin {
+public class TextureManagerMixin
+{
 	@Inject(method = "getTextureId", at = @At("HEAD"), cancellable = true)
-	private void getTextureId(String string, CallbackInfoReturnable<Integer> info) {
-		if (string.equals("/terrain.png")) {
+	private void getTextureId(String string, CallbackInfoReturnable<Integer> info)
+	{
+		if (string.equals("/terrain.png"))
+		{
 			CoreLib.selectedAtlas = CoreLib.blocksAtlas;
 			info.setReturnValue(CoreLib.blocksAtlas.getTexture().getID());
 			info.cancel();
-		} else if (string.equals("/gui/items.png")) {
+		}
+		else if (string.equals("/gui/items.png"))
+		{
 			CoreLib.selectedAtlas = CoreLib.itemsAtlas;
 			info.setReturnValue(CoreLib.itemsAtlas.getTexture().getID());
 			info.cancel();
-		} else {
+		}
+		else
+		{
 			CoreLib.selectedAtlas = null;
 		}
 	}

@@ -3,6 +3,8 @@
   "package": "paulevs.corelib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+	"Class445Mixin",
+	"ChunkMixin"
   ],
   "client": [
 	"TileRendererMixin",

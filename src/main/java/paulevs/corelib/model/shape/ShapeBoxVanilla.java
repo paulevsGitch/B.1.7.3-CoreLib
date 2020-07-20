@@ -4,7 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.sortme.GameRenderer;
 
 @Deprecated
-public class ShapeBoxVanilla extends Shape {
+public class ShapeBoxVanilla extends Shape
+{
 	private float minX;
 	private float maxX;
 	private float minY;
@@ -12,7 +13,8 @@ public class ShapeBoxVanilla extends Shape {
 	private float minZ;
 	private float maxZ;
 
-	public ShapeBoxVanilla(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+	public ShapeBoxVanilla(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+	{
 		this.minX = minX;
 		this.minY = minY;
 		this.minZ = minZ;
@@ -22,11 +24,13 @@ public class ShapeBoxVanilla extends Shape {
 		this.maxZ = maxZ;
 	}
 
-	public ShapeBoxVanilla() {
+	public ShapeBoxVanilla()
+	{
 		this(0, 0, 0, 1, 1, 1);
 	}
 
-	public void reshape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+	public void reshape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+	{
 		this.minX = minX;
 		this.minY = minY;
 		this.minZ = minZ;
@@ -37,15 +41,17 @@ public class ShapeBoxVanilla extends Shape {
 	}
 
 	@Override
-	public void render() {
-		tile.setBoundingBox(minX + OFFSET.getX(), minY + OFFSET.getY(), minZ + OFFSET.getZ(),
-							maxX + OFFSET.getX(), maxY + OFFSET.getY(), maxZ + OFFSET.getZ());
+	public void render()
+	{
+		tile.setBoundingBox(minX + OFFSET.getX(), minY + OFFSET.getY(), minZ + OFFSET.getZ(), maxX + OFFSET.getX(),
+				maxY + OFFSET.getY(), maxZ + OFFSET.getZ());
 
 		float red = (color >> 16 & 255) / 255F;
 		float green = (color >> 8 & 255) / 255F;
 		float blue = (color & 255) / 255F;
 
-		if (GameRenderer.field_2340) {
+		if (GameRenderer.field_2340)
+		{
 			float newRed = (red * 30.0F + green * 59.0F + blue * 11.0F) / 100.0F;
 			float newGreen = (red * 30.0F + green * 70.0F) / 100.0F;
 			float newBlue = (red * 30.0F + blue * 70.0F) / 100.0F;

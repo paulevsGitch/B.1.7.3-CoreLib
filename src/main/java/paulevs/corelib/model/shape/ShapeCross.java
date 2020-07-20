@@ -3,21 +3,25 @@ package paulevs.corelib.model.shape;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.sortme.GameRenderer;
 
-public class ShapeCross extends Shape {
+public class ShapeCross extends Shape
+{
 	private float scaleWidth;
 	private float scaleHeight;
 
-	public ShapeCross(float scaleWidth, float scaleHeight) {
+	public ShapeCross(float scaleWidth, float scaleHeight)
+	{
 		this.scaleWidth = scaleWidth * 0.5F;
 		this.scaleHeight = scaleHeight * 0.5F;
 	}
 
-	public ShapeCross() {
+	public ShapeCross()
+	{
 		this(0.9F, 1);
 	}
 
 	@Override
-	public void render() {
+	public void render()
+	{
 		double u1, u2, v1, v2;
 
 		u1 = uv.getStart().getX();
@@ -39,7 +43,8 @@ public class ShapeCross extends Shape {
 		float green = (color >> 8 & 255) / 255F;
 		float blue = (color & 255) / 255F;
 
-		if (GameRenderer.field_2340) {
+		if (GameRenderer.field_2340)
+		{
 			float newRed = (red * 30.0F + green * 59.0F + blue * 11.0F) / 100.0F;
 			float newGreen = (red * 30.0F + green * 70.0F) / 100.0F;
 			float newBlue = (red * 30.0F + blue * 70.0F) / 100.0F;
