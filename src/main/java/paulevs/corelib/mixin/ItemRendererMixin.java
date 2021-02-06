@@ -35,12 +35,16 @@ public class ItemRendererMixin {
 	@Shadow
 	private Random rand;
 
+	/**
+	 * Render item entity in the world
+	 */
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void renderEntity(ItemEntity entity, double posX, double posY, double posZ, float pitch, float yaw, CallbackInfo info) {
 		Model model = ModelRegistry.getItemModel(entity.item.getType(), entity.item.getDamage());
 		if (model != null && model.hasItem()) {
 			CoreLib.ITEM_VIEW.setTile(0);
 			Shape.setTileView(CoreLib.ITEM_VIEW);
+			Shape.setMeta(entity.item.getDamage());
 			Shape.setPos(0, 0, 0);
 			Shape.setRenderer(field_1708);
 			Shape.setWorldCulling(true);
@@ -70,21 +74,24 @@ public class ItemRendererMixin {
 			GL11.glEnable(32826);
 
 			GL11.glRotatef(angle, 0.0F, 1.0F, 0.0F);
-			CoreLib.itemsAtlas.bind();
-			float var14 = 0.25F;
+			model.bindAtlas();
+			float scale = 0.5F;
 
-			GL11.glScalef(var14, var14, var14);
+			GL11.glScalef(scale, scale, scale);
 
 			for (int var15 = 0; var15 < count; ++var15) {
 				GL11.glPushMatrix();
 				if (var15 > 0) {
-					float var16 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / var14;
-					float var17 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / var14;
-					float var18 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / var14;
+					float var16 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
+					float var17 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
+					float var18 = (this.rand.nextFloat() * 2.0F - 1.0F) * 0.2F / scale;
 					GL11.glTranslatef(var16, var17, var18);
 				}
 
+				Tessellator.INSTANCE.start();
+				Tessellator.INSTANCE.method_1697(0.0F, -1.0F, 0.0F);
 				model.renderItem();
+				Tessellator.INSTANCE.draw();
 				GL11.glPopMatrix();
 			}
 
@@ -146,7 +153,7 @@ public class ItemRendererMixin {
 
 			this.field_1708.field_81 = this.field_1707;
 
-			CoreLib.itemsAtlas.bind();
+			model.bindAtlas();
 			Tessellator.INSTANCE.start();
 			Tessellator.INSTANCE.method_1697(0.0F, -1.0F, 0.0F);
 			model.renderItem();
@@ -160,30 +167,6 @@ public class ItemRendererMixin {
 			info.cancel();
 		}
 	}
-
-	/*
-	 * @Inject(method = "method_1483", at = @At("HEAD"), cancellable = true)
-	 * public void method_1487(TextRenderer arg, TextureManager arg1,
-	 * ItemInstance arg2, int i, int j) {
-	 * 
-	 * }
-	 */
-
-	/*
-	 * @Inject(method = "render", at = @At("HEAD"), cancellable = true) public
-	 * void renderCustom(ItemEntity entity, double d, double d1, double d2,
-	 * float f, float f1, CallbackInfo info) { ItemType item =
-	 * entity.item.getType(); int meta = entity.item.getDamage(); Model model =
-	 * ModelRegistry.getItemModel(item, meta); if (model != null) {
-	 * Shape.setTileView(CoreLib.ITEM_VIEW); Shape.setPos(0, 0, 0);
-	 * //Shape.setTile(null); Shape.setRenderer(field_1708);
-	 * Shape.setMeta(meta); Shape.setWorldCulling(true); Shape.resetOffset();
-	 * Shape.drawAll();
-	 * 
-	 * Tessellator.INSTANCE.start(); Tessellator.INSTANCE.method_1697(0.0F,
-	 * -1.0F, 0.0F); model.renderItem(); Tessellator.INSTANCE.draw();
-	 * info.cancel(); } }
-	 */
 
 	@ModifyConstant(method = "render", constant = @Constant(floatValue = 256.0F), expect = 3)
 	private float changeSizeF(float original) {

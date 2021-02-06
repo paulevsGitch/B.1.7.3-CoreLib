@@ -121,20 +121,14 @@ public abstract class Shape {
 			Arrays.fill(RENDER_WORLD, true);
 		}
 		else {
-			RENDER_WORLD[CoreLib.FACE_POS_X] = tile.method_1618(tileView, POS.getX() + 1, POS.getY(), POS.getZ(),
-					CoreLib.FACE_POS_X);
-			RENDER_WORLD[CoreLib.FACE_NEG_X] = tile.method_1618(tileView, POS.getX() - 1, POS.getY(), POS.getZ(),
-					CoreLib.FACE_NEG_X);
+			RENDER_WORLD[CoreLib.FACE_POS_X] = tile.method_1618(tileView, POS.getX() + 1, POS.getY(), POS.getZ(), CoreLib.FACE_POS_X);
+			RENDER_WORLD[CoreLib.FACE_NEG_X] = tile.method_1618(tileView, POS.getX() - 1, POS.getY(), POS.getZ(), CoreLib.FACE_NEG_X);
 
-			RENDER_WORLD[CoreLib.FACE_POS_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() + 1, POS.getZ(),
-					CoreLib.FACE_POS_Y);
-			RENDER_WORLD[CoreLib.FACE_NEG_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() - 1, POS.getZ(),
-					CoreLib.FACE_NEG_Y);
+			RENDER_WORLD[CoreLib.FACE_POS_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() + 1, POS.getZ(), CoreLib.FACE_POS_Y);
+			RENDER_WORLD[CoreLib.FACE_NEG_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() - 1, POS.getZ(), CoreLib.FACE_NEG_Y);
 
-			RENDER_WORLD[CoreLib.FACE_POS_Z] = tile.method_1618(tileView, POS.getX(), POS.getY() + 1, POS.getZ(),
-					CoreLib.FACE_POS_Z);
-			RENDER_WORLD[CoreLib.FACE_NEG_Z] = tile.method_1618(tileView, POS.getX(), POS.getY() - 1, POS.getZ(),
-					CoreLib.FACE_NEG_Z);
+			RENDER_WORLD[CoreLib.FACE_POS_Z] = tile.method_1618(tileView, POS.getX(), POS.getY(), POS.getZ() + 1, CoreLib.FACE_POS_Z);
+			RENDER_WORLD[CoreLib.FACE_NEG_Z] = tile.method_1618(tileView, POS.getX(), POS.getY(), POS.getZ() - 1, CoreLib.FACE_NEG_Z);
 		}
 	}
 

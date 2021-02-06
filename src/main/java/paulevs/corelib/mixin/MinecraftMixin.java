@@ -30,7 +30,7 @@ public class MinecraftMixin {
 		});
 		CoreLib.blocksAtlas = new TextureAtlas("/terrain.png", textures);
 		models.forEach((model) -> {
-			model.init();
+			model.init(CoreLib.blocksAtlas);
 		});
 
 		models = ModelRegistry.getItemModels();
@@ -40,7 +40,7 @@ public class MinecraftMixin {
 		});
 		CoreLib.itemsAtlas = new TextureAtlas("/gui/items.png", textures);
 		models.forEach((model) -> {
-			model.init();
+			model.init(CoreLib.itemsAtlas);
 		});
 	}
 }

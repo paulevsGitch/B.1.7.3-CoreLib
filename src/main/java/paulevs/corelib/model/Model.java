@@ -8,10 +8,12 @@ import com.google.common.collect.Maps;
 
 import paulevs.corelib.LocationRandom;
 import paulevs.corelib.model.shape.Shape;
+import paulevs.corelib.texture.TextureAtlas;
 import paulevs.corelib.texture.UVPair;
 
 public abstract class Model {
 	protected static final LocationRandom RANDOM = new LocationRandom();
+	private TextureAtlas atlas;
 
 	private Map<String, TextureInfo> textures = Maps.newHashMap();
 
@@ -28,10 +30,13 @@ public abstract class Model {
 		return this;
 	}
 
-	public void init() {
-		textures.forEach((name, info) -> {
-			info.init();
-		});
+	public void init(TextureAtlas atlas) {
+		if (this.atlas == null) {
+			this.atlas = atlas;
+			textures.forEach((name, info) -> {
+				info.init(atlas);
+			});
+		}
 	}
 
 	public boolean hasItem() {
@@ -56,5 +61,9 @@ public abstract class Model {
 			list.add(info.getName());
 		});
 		return list;
+	}
+	
+	public void bindAtlas() {
+		atlas.bind();
 	}
 }

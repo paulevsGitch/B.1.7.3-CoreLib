@@ -2,6 +2,7 @@ package paulevs.corelib.model;
 
 import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.model.shape.ShapeOBJ;
+import paulevs.corelib.texture.TextureAtlas;
 import paulevs.corelib.texture.UVPair;
 
 public class ModelOBJ extends Model {
@@ -30,8 +31,8 @@ public class ModelOBJ extends Model {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(TextureAtlas atlas) {
+		super.init(atlas);
 		shape.changeUV(getUV("texture"));
 	}
 

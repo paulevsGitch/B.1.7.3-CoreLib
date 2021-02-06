@@ -1,6 +1,6 @@
 package paulevs.corelib.model;
 
-import paulevs.corelib.CoreLib;
+import paulevs.corelib.texture.TextureAtlas;
 import paulevs.corelib.texture.UVPair;
 
 public class TextureInfo {
@@ -11,8 +11,8 @@ public class TextureInfo {
 		this.name = name;
 	}
 
-	public void init() {
-		uv = CoreLib.blocksAtlas.getUV(name);
+	public void init(TextureAtlas atlas) {
+		uv = atlas.getUV(name);
 	}
 
 	public UVPair getUV() {
