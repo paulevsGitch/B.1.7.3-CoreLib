@@ -10,7 +10,6 @@ import paulevs.corelib.math.Vec3F;
 public class ShapeBoxCustom extends Shape {
 	private static int field_83 = -1;
 	private static boolean field_84 = false;
-	private static boolean field_85 = false;
 	private static boolean field_67 = true;
 	private static int field_86 = 0;
 	private static int field_87 = 0;
@@ -18,7 +17,7 @@ public class ShapeBoxCustom extends Shape {
 	private static int field_89 = 0;
 	private static int field_90 = 0;
 	private static int field_91 = 0;
-	private static boolean field_92;
+	private static boolean hasColor;
 	private static float field_93;
 	private static float field_94;
 	private static float field_95;
@@ -46,19 +45,18 @@ public class ShapeBoxCustom extends Shape {
 	private static float field_52;
 	private static float field_53;
 	private static float field_54;
-	private static int field_55 = 1;
-	private static float field_56;
-	private static float field_57;
-	private static float field_58;
-	private static float field_59;
-	private static float field_60;
-	private static float field_61;
-	private static float field_62;
-	private static float field_63;
-	private static float field_64;
-	private static float field_65;
-	private static float field_66;
-	private static float field_68;
+	private static float red1;
+	private static float red2;
+	private static float red3;
+	private static float red4;
+	private static float green1;
+	private static float green2;
+	private static float green3;
+	private static float green4;
+	private static float blue1;
+	private static float blue2;
+	private static float blue3;
+	private static float blue4;
 	private static boolean field_69;
 	private static boolean field_70;
 	private static boolean field_71;
@@ -128,14 +126,16 @@ public class ShapeBoxCustom extends Shape {
 
 		size = CoreLib.getAtlasSize();
 
-		if (Minecraft.isSmoothLightingEnabled())
+		if (Minecraft.isSmoothLightingEnabled()) {
 			smoothBox(tile, POS.getX(), POS.getY(), POS.getZ(), red, green, blue);
-		else
+		}
+		else {
 			flatBox(tile, POS.getX(), POS.getY(), POS.getZ(), red, green, blue);
+		}
 	}
 
-	private void flatBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue) {
-		field_92 = false;
+	private void flatBox(Tile tile, int posX, int posY, int posZ, float red, float green, float blue) {
+		hasColor = false;
 		Tessellator tesselator = Tessellator.INSTANCE;
 		float var10 = 0.5F;
 		float var11 = 1.0F;
@@ -146,96 +146,96 @@ public class ShapeBoxCustom extends Shape {
 		float var16 = var11 * blue;
 		float var17 = var10 * red;
 		float var18 = var12 * red;
-		float var19 = var13 * red;
+		float colorR = var13 * red;
 		float var20 = var10 * green;
 		float var21 = var12 * green;
-		float var22 = var13 * green;
+		float colorG = var13 * green;
 		float var23 = var10 * blue;
 		float var24 = var12 * blue;
-		float var25 = var13 * blue;
+		float colorB = var13 * blue;
 
-		float var26 = arg.method_1604(tileView, posX, posY, posZ);
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y)) {
-			float var27 = arg.method_1604(tileView, posX, posY - 1, posZ);
+		float centralLight = tile.method_1604(tileView, posX, posY, posZ);
+		if (shouldRenderFace(CoreLib.FACE_NEG_Y)) {
+			float var27 = tile.method_1604(tileView, posX, posY - 1, posZ);
 			tesselator.colour(var17 * var27, var20 * var27, var23 * var27);
-			this.method_46(arg, (double) posX, (double) posY, (double) posZ,
-					arg.method_1626(tileView, posX, posY, posZ, 0));
+			this.method_46(tile, (double) posX, (double) posY, (double) posZ,
+					tile.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y)) {
-			float var27 = arg.method_1604(tileView, posX, posY + 1, posZ);
-			if (POS_MAX.getY() != 1.0D && !arg.material.isLiquid()) {
-				var27 = var26;
+		if (shouldRenderFace(CoreLib.FACE_POS_Y)) {
+			float var27 = tile.method_1604(tileView, posX, posY + 1, posZ);
+			if (POS_MAX.getY() != 1.0D && !tile.material.isLiquid()) {
+				var27 = centralLight;
 			}
 
 			tesselator.colour(var14 * var27, var15 * var27, var16 * var27);
-			this.method_55(arg, (double) posX, (double) posY, (double) posZ,
-					arg.method_1626(tileView, posX, posY, posZ, 1));
+			this.method_55(tile, (double) posX, (double) posY, (double) posZ,
+					tile.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z)) {
-			float var27 = arg.method_1604(tileView, posX, posY, posZ - 1);
+		if (shouldRenderFace(CoreLib.FACE_NEG_Z)) {
+			float var27 = tile.method_1604(tileView, posX, posY, posZ - 1);
 			if (POS_MIN.getZ() > 0.0D) {
-				var27 = var26;
+				var27 = centralLight;
 			}
 
 			tesselator.colour(var18 * var27, var21 * var27, var24 * var27);
-			int var28 = arg.method_1626(tileView, posX, posY, posZ, 2);
-			this.method_61(arg, (double) posX, (double) posY, (double) posZ, var28);
+			int var28 = tile.method_1626(tileView, posX, posY, posZ, 2);
+			this.method_61(tile, (double) posX, (double) posY, (double) posZ, var28);
 			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var18 * var27 * red, var21 * var27 * green, var24 * var27 * blue);
-				this.method_61(arg, (double) posX, (double) posY, (double) posZ, 38);
+				this.method_61(tile, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z)) {
-			float var27 = arg.method_1604(tileView, posX, posY, posZ + 1);
+		if (shouldRenderFace(CoreLib.FACE_POS_Z)) {
+			float var27 = tile.method_1604(tileView, posX, posY, posZ + 1);
 			if (POS_MAX.getZ() < 1.0D) {
-				var27 = var26;
+				var27 = centralLight;
 			}
 
 			tesselator.colour(var18 * var27, var21 * var27, var24 * var27);
-			int var28 = arg.method_1626(tileView, posX, posY, posZ, 3);
-			this.method_65(arg, (double) posX, (double) posY, (double) posZ, var28);
+			int var28 = tile.method_1626(tileView, posX, posY, posZ, 3);
+			this.method_65(tile, (double) posX, (double) posY, (double) posZ, var28);
 			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var18 * var27 * red, var21 * var27 * green, var24 * var27 * blue);
-				this.method_65(arg, (double) posX, (double) posY, (double) posZ, 38);
+				this.method_65(tile, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X)) {
-			float var27 = arg.method_1604(tileView, posX - 1, posY, posZ);
+		if (shouldRenderFace(CoreLib.FACE_NEG_X)) {
+			float light = tile.method_1604(tileView, posX - 1, posY, posZ);
 			if (POS_MIN.getX() > 0.0D) {
-				var27 = var26;
+				light = centralLight;
 			}
 
-			tesselator.colour(var19 * var27, var22 * var27, var25 * var27);
-			int var28 = arg.method_1626(tileView, posX, posY, posZ, 4);
-			this.method_67(arg, (double) posX, (double) posY, (double) posZ, var28);
+			tesselator.colour(colorR * light, colorG * light, colorB * light);
+			int var28 = tile.method_1626(tileView, posX, posY, posZ, 4);
+			this.method_67(tile, (double) posX, (double) posY, (double) posZ, var28);
 			if (field_67 && var28 == 3 && field_83 < 0) {
-				tesselator.colour(var19 * var27 * red, var22 * var27 * green, var25 * var27 * blue);
-				this.method_67(arg, (double) posX, (double) posY, (double) posZ, 38);
+				tesselator.colour(colorR * light * red, colorG * light * green, colorB * light * blue);
+				this.method_67(tile, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X)) {
-			float var27 = arg.method_1604(tileView, posX + 1, posY, posZ);
+		if (shouldRenderFace(CoreLib.FACE_POS_X)) {
+			float var27 = tile.method_1604(tileView, posX + 1, posY, posZ);
 			if (POS_MAX.getX() < 1.0D) {
-				var27 = var26;
+				var27 = centralLight;
 			}
 
-			tesselator.colour(var19 * var27, var22 * var27, var25 * var27);
-			int var28 = arg.method_1626(tileView, posX, posY, posZ, 5);
-			this.method_69(arg, (double) posX, (double) posY, (double) posZ, var28);
+			tesselator.colour(colorR * var27, colorG * var27, colorB * var27);
+			int var28 = tile.method_1626(tileView, posX, posY, posZ, 5);
+			this.method_69(tile, (double) posX, (double) posY, (double) posZ, var28);
 			if (field_67 && var28 == 3 && field_83 < 0) {
-				tesselator.colour(var19 * var27 * red, var22 * var27 * green, var25 * var27 * blue);
-				this.method_69(arg, (double) posX, (double) posY, (double) posZ, 38);
+				tesselator.colour(colorR * var27 * red, colorG * var27 * green, colorB * var27 * blue);
+				this.method_69(tile, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 	}
 
 	private void smoothBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue) {
-		field_92 = true;
+		hasColor = true;
 		float var9 = field_93;
 		float var10 = field_93;
 		float var11 = field_93;
@@ -281,474 +281,424 @@ public class ShapeBoxCustom extends Shape {
 			var13 = 0;
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y)) {
-			if (field_55 <= 0) {
-				var12 = field_95;
-				var11 = field_95;
-				var10 = field_95;
-				var9 = field_95;
+		if (shouldRenderFace(CoreLib.FACE_NEG_Y)) {
+			--posY;
+			field_101 = arg.method_1604(tileView, posX - 1, posY, posZ);
+			field_103 = arg.method_1604(tileView, posX, posY, posZ - 1);
+			field_104 = arg.method_1604(tileView, posX, posY, posZ + 1);
+			field_41 = arg.method_1604(tileView, posX + 1, posY, posZ);
+			if (!field_77 && !field_79) {
+				field_100 = field_101;
 			}
 			else {
-				--posY;
-				field_101 = arg.method_1604(tileView, posX - 1, posY, posZ);
-				field_103 = arg.method_1604(tileView, posX, posY, posZ - 1);
-				field_104 = arg.method_1604(tileView, posX, posY, posZ + 1);
-				field_41 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				if (!field_77 && !field_79) {
-					field_100 = field_101;
-				}
-				else {
-					field_100 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
-				}
-
-				if (!field_80 && !field_79) {
-					field_102 = field_101;
-				}
-				else {
-					field_102 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
-				}
-
-				if (!field_77 && !field_78) {
-					field_105 = field_41;
-				}
-				else {
-					field_105 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
-				}
-
-				if (!field_80 && !field_78) {
-					field_42 = field_41;
-				}
-				else {
-					field_42 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
-				}
-
-				++posY;
-				var9 = (field_102 + field_101 + field_104 + field_95) / 4.0F;
-				var12 = (field_104 + field_95 + field_42 + field_41) / 4.0F;
-				var11 = (field_95 + field_103 + field_41 + field_105) / 4.0F;
-				var10 = (field_101 + field_100 + field_95 + field_103) / 4.0F;
+				field_100 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = (var13 != 0 ? red : 1.0F) * 0.5F;
-			field_60 = field_61 = field_62 = field_63 = (var13 != 0 ? green : 1.0F) * 0.5F;
-			field_64 = field_65 = field_66 = field_68 = (var13 != 0 ? blue : 1.0F) * 0.5F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
-			this.method_46(arg, (double) posX, (double) posY, (double) posZ,
-					arg.method_1626(tileView, posX, posY, posZ, 0));
+			if (!field_80 && !field_79) {
+				field_102 = field_101;
+			}
+			else {
+				field_102 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
+			}
+
+			if (!field_77 && !field_78) {
+				field_105 = field_41;
+			}
+			else {
+				field_105 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
+			}
+
+			if (!field_80 && !field_78) {
+				field_42 = field_41;
+			}
+			else {
+				field_42 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
+			}
+
+			++posY;
+			var9 = (field_102 + field_101 + field_104 + field_95) / 4.0F;
+			var12 = (field_104 + field_95 + field_42 + field_41) / 4.0F;
+			var11 = (field_95 + field_103 + field_41 + field_105) / 4.0F;
+			var10 = (field_101 + field_100 + field_95 + field_103) / 4.0F;
+
+			red1 = red2 = red3 = red4 = (var13 != 0 ? red : 1.0F) * 0.5F;
+			green1 = green2 = green3 = green4 = (var13 != 0 ? green : 1.0F) * 0.5F;
+			blue1 = blue2 = blue3 = blue4 = (var13 != 0 ? blue : 1.0F) * 0.5F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
+			this.method_46(arg, (double) posX, (double) posY, (double) posZ, arg.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y)) {
-			if (field_55 <= 0) {
-				var12 = field_98;
-				var11 = field_98;
-				var10 = field_98;
-				var9 = field_98;
+		if (shouldRenderFace(CoreLib.FACE_POS_Y)) {
+			++posY;
+			field_44 = arg.method_1604(tileView, posX - 1, posY, posZ);
+			field_48 = arg.method_1604(tileView, posX + 1, posY, posZ);
+			field_46 = arg.method_1604(tileView, posX, posY, posZ - 1);
+			field_49 = arg.method_1604(tileView, posX, posY, posZ + 1);
+			if (!field_69 && !field_71) {
+				field_43 = field_44;
 			}
 			else {
-				++posY;
-				field_44 = arg.method_1604(tileView, posX - 1, posY, posZ);
-				field_48 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				field_46 = arg.method_1604(tileView, posX, posY, posZ - 1);
-				field_49 = arg.method_1604(tileView, posX, posY, posZ + 1);
-				if (!field_69 && !field_71) {
-					field_43 = field_44;
-				}
-				else {
-					field_43 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
-				}
-
-				if (!field_69 && !field_70) {
-					field_47 = field_48;
-				}
-				else {
-					field_47 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
-				}
-
-				if (!field_72 && !field_71) {
-					field_45 = field_44;
-				}
-				else {
-					field_45 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
-				}
-
-				if (!field_72 && !field_70) {
-					field_50 = field_48;
-				}
-				else {
-					field_50 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
-				}
-
-				--posY;
-				var12 = (field_45 + field_44 + field_49 + field_98) / 4.0F;
-				var9 = (field_49 + field_98 + field_50 + field_48) / 4.0F;
-				var10 = (field_98 + field_46 + field_48 + field_47) / 4.0F;
-				var11 = (field_44 + field_43 + field_98 + field_46) / 4.0F;
+				field_43 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = var14 != 0 ? red : 1.0F;
-			field_60 = field_61 = field_62 = field_63 = var14 != 0 ? green : 1.0F;
-			field_64 = field_65 = field_66 = field_68 = var14 != 0 ? blue : 1.0F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
-			this.method_55(arg, (double) posX, (double) posY, (double) posZ,
-					arg.method_1626(tileView, posX, posY, posZ, 1));
+			if (!field_69 && !field_70) {
+				field_47 = field_48;
+			}
+			else {
+				field_47 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
+			}
+
+			if (!field_72 && !field_71) {
+				field_45 = field_44;
+			}
+			else {
+				field_45 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
+			}
+
+			if (!field_72 && !field_70) {
+				field_50 = field_48;
+			}
+			else {
+				field_50 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
+			}
+
+			--posY;
+			var12 = (field_45 + field_44 + field_49 + field_98) / 4.0F;
+			var9 = (field_49 + field_98 + field_50 + field_48) / 4.0F;
+			var10 = (field_98 + field_46 + field_48 + field_47) / 4.0F;
+			var11 = (field_44 + field_43 + field_98 + field_46) / 4.0F;
+
+			red1 = red2 = red3 = red4 = var14 != 0 ? red : 1.0F;
+			green1 = green2 = green3 = green4 = var14 != 0 ? green : 1.0F;
+			blue1 = blue2 = blue3 = blue4 = var14 != 0 ? blue : 1.0F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
+			this.method_55(arg, (double) posX, (double) posY, (double) posZ, arg.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z)) {
-			if (field_55 <= 0) {
-				var12 = field_96;
-				var11 = field_96;
-				var10 = field_96;
-				var9 = field_96;
+		if (shouldRenderFace(CoreLib.FACE_NEG_Z)) {
+			--posZ;
+			field_51 = arg.method_1604(tileView, posX - 1, posY, posZ);
+			field_103 = arg.method_1604(tileView, posX, posY - 1, posZ);
+			field_46 = arg.method_1604(tileView, posX, posY + 1, posZ);
+			field_52 = arg.method_1604(tileView, posX + 1, posY, posZ);
+			if (!field_73 && !field_77) {
+				field_100 = field_51;
 			}
 			else {
-				--posZ;
-				field_51 = arg.method_1604(tileView, posX - 1, posY, posZ);
-				field_103 = arg.method_1604(tileView, posX, posY - 1, posZ);
-				field_46 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				field_52 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				if (!field_73 && !field_77) {
-					field_100 = field_51;
-				}
-				else {
-					field_100 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
-				}
-
-				if (!field_73 && !field_69) {
-					field_43 = field_51;
-				}
-				else {
-					field_43 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
-				}
-
-				if (!field_76 && !field_77) {
-					field_105 = field_52;
-				}
-				else {
-					field_105 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
-				}
-
-				if (!field_76 && !field_69) {
-					field_47 = field_52;
-				}
-				else {
-					field_47 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
-				}
-
-				++posZ;
-				var9 = (field_51 + field_43 + field_96 + field_46) / 4.0F;
-				var10 = (field_96 + field_46 + field_52 + field_47) / 4.0F;
-				var11 = (field_103 + field_96 + field_105 + field_52) / 4.0F;
-				var12 = (field_100 + field_51 + field_103 + field_96) / 4.0F;
+				field_100 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = (var15 != 0 ? red : 1.0F) * 0.8F;
-			field_60 = field_61 = field_62 = field_63 = (var15 != 0 ? green : 1.0F) * 0.8F;
-			field_64 = field_65 = field_66 = field_68 = (var15 != 0 ? blue : 1.0F) * 0.8F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
+			if (!field_73 && !field_69) {
+				field_43 = field_51;
+			}
+			else {
+				field_43 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
+			}
+
+			if (!field_76 && !field_77) {
+				field_105 = field_52;
+			}
+			else {
+				field_105 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
+			}
+
+			if (!field_76 && !field_69) {
+				field_47 = field_52;
+			}
+			else {
+				field_47 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
+			}
+
+			++posZ;
+			var9 = (field_51 + field_43 + field_96 + field_46) / 4.0F;
+			var10 = (field_96 + field_46 + field_52 + field_47) / 4.0F;
+			var11 = (field_103 + field_96 + field_105 + field_52) / 4.0F;
+			var12 = (field_100 + field_51 + field_103 + field_96) / 4.0F;
+
+			red1 = red2 = red3 = red4 = (var15 != 0 ? red : 1.0F) * 0.8F;
+			green1 = green2 = green3 = green4 = (var15 != 0 ? green : 1.0F) * 0.8F;
+			blue1 = blue2 = blue3 = blue4 = (var15 != 0 ? blue : 1.0F) * 0.8F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 2);
 			this.method_61(arg, (double) posX, (double) posY, (double) posZ, var19);
 			if (field_67 && var19 == 3 && field_83 < 0) {
-				field_56 *= red;
-				field_57 *= red;
-				field_58 *= red;
-				field_59 *= red;
-				field_60 *= green;
-				field_61 *= green;
-				field_62 *= green;
-				field_63 *= green;
-				field_64 *= blue;
-				field_65 *= blue;
-				field_66 *= blue;
-				field_68 *= blue;
+				red1 *= red;
+				red2 *= red;
+				red3 *= red;
+				red4 *= red;
+				green1 *= green;
+				green2 *= green;
+				green3 *= green;
+				green4 *= green;
+				blue1 *= blue;
+				blue2 *= blue;
+				blue3 *= blue;
+				blue4 *= blue;
 				this.method_61(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z)) {
-			if (field_55 <= 0) {
-				var12 = field_99;
-				var11 = field_99;
-				var10 = field_99;
-				var9 = field_99;
+		if (shouldRenderFace(CoreLib.FACE_POS_Z)) {
+			++posZ;
+			field_53 = arg.method_1604(tileView, posX - 1, posY, posZ);
+			field_54 = arg.method_1604(tileView, posX + 1, posY, posZ);
+			field_104 = arg.method_1604(tileView, posX, posY - 1, posZ);
+			field_49 = arg.method_1604(tileView, posX, posY + 1, posZ);
+			if (!field_75 && !field_80) {
+				field_102 = field_53;
 			}
 			else {
-				++posZ;
-				field_53 = arg.method_1604(tileView, posX - 1, posY, posZ);
-				field_54 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				field_104 = arg.method_1604(tileView, posX, posY - 1, posZ);
-				field_49 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_75 && !field_80) {
-					field_102 = field_53;
-				}
-				else {
-					field_102 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
-				}
-
-				if (!field_75 && !field_72) {
-					field_45 = field_53;
-				}
-				else {
-					field_45 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
-				}
-
-				if (!field_74 && !field_80) {
-					field_42 = field_54;
-				}
-				else {
-					field_42 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
-				}
-
-				if (!field_74 && !field_72) {
-					field_50 = field_54;
-				}
-				else {
-					field_50 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
-				}
-
-				--posZ;
-				var9 = (field_53 + field_45 + field_99 + field_49) / 4.0F;
-				var12 = (field_99 + field_49 + field_54 + field_50) / 4.0F;
-				var11 = (field_104 + field_99 + field_42 + field_54) / 4.0F;
-				var10 = (field_102 + field_53 + field_104 + field_99) / 4.0F;
+				field_102 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = (var16 != 0 ? red : 1.0F) * 0.8F;
-			field_60 = field_61 = field_62 = field_63 = (var16 != 0 ? green : 1.0F) * 0.8F;
-			field_64 = field_65 = field_66 = field_68 = (var16 != 0 ? blue : 1.0F) * 0.8F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
+			if (!field_75 && !field_72) {
+				field_45 = field_53;
+			}
+			else {
+				field_45 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
+			}
+
+			if (!field_74 && !field_80) {
+				field_42 = field_54;
+			}
+			else {
+				field_42 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
+			}
+
+			if (!field_74 && !field_72) {
+				field_50 = field_54;
+			}
+			else {
+				field_50 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
+			}
+
+			--posZ;
+			var9 = (field_53 + field_45 + field_99 + field_49) / 4.0F;
+			var12 = (field_99 + field_49 + field_54 + field_50) / 4.0F;
+			var11 = (field_104 + field_99 + field_42 + field_54) / 4.0F;
+			var10 = (field_102 + field_53 + field_104 + field_99) / 4.0F;
+
+			red1 = red2 = red3 = red4 = (var16 != 0 ? red : 1.0F) * 0.8F;
+			green1 = green2 = green3 = green4 = (var16 != 0 ? green : 1.0F) * 0.8F;
+			blue1 = blue2 = blue3 = blue4 = (var16 != 0 ? blue : 1.0F) * 0.8F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 3);
 			this.method_65(arg, (double) posX, (double) posY, (double) posZ,
 					arg.method_1626(tileView, posX, posY, posZ, 3));
 			if (field_67 && var19 == 3 && field_83 < 0) {
-				field_56 *= red;
-				field_57 *= red;
-				field_58 *= red;
-				field_59 *= red;
-				field_60 *= green;
-				field_61 *= green;
-				field_62 *= green;
-				field_63 *= green;
-				field_64 *= blue;
-				field_65 *= blue;
-				field_66 *= blue;
-				field_68 *= blue;
+				red1 *= red;
+				red2 *= red;
+				red3 *= red;
+				red4 *= red;
+				green1 *= green;
+				green2 *= green;
+				green3 *= green;
+				green4 *= green;
+				blue1 *= blue;
+				blue2 *= blue;
+				blue3 *= blue;
+				blue4 *= blue;
 				this.method_65(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X)) {
-			if (field_55 <= 0) {
-				var12 = field_94;
-				var11 = field_94;
-				var10 = field_94;
-				var9 = field_94;
+		if (shouldRenderFace(CoreLib.FACE_NEG_X)) {
+			--posX;
+			field_101 = arg.method_1604(tileView, posX, posY - 1, posZ);
+			field_51 = arg.method_1604(tileView, posX, posY, posZ - 1);
+			field_53 = arg.method_1604(tileView, posX, posY, posZ + 1);
+			field_44 = arg.method_1604(tileView, posX, posY + 1, posZ);
+			if (!field_73 && !field_79) {
+				field_100 = field_51;
 			}
 			else {
-				--posX;
-				field_101 = arg.method_1604(tileView, posX, posY - 1, posZ);
-				field_51 = arg.method_1604(tileView, posX, posY, posZ - 1);
-				field_53 = arg.method_1604(tileView, posX, posY, posZ + 1);
-				field_44 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_73 && !field_79) {
-					field_100 = field_51;
-				}
-				else {
-					field_100 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
-				}
-
-				if (!field_75 && !field_79) {
-					field_102 = field_53;
-				}
-				else {
-					field_102 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
-				}
-
-				if (!field_73 && !field_71) {
-					field_43 = field_51;
-				}
-				else {
-					field_43 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
-				}
-
-				if (!field_75 && !field_71) {
-					field_45 = field_53;
-				}
-				else {
-					field_45 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
-				}
-
-				++posX;
-				var12 = (field_101 + field_102 + field_94 + field_53) / 4.0F;
-				var9 = (field_94 + field_53 + field_44 + field_45) / 4.0F;
-				var10 = (field_51 + field_94 + field_43 + field_44) / 4.0F;
-				var11 = (field_100 + field_101 + field_51 + field_94) / 4.0F;
+				field_100 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = (var17 != 0 ? red : 1.0F) * 0.6F;
-			field_60 = field_61 = field_62 = field_63 = (var17 != 0 ? green : 1.0F) * 0.6F;
-			field_64 = field_65 = field_66 = field_68 = (var17 != 0 ? blue : 1.0F) * 0.6F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
+			if (!field_75 && !field_79) {
+				field_102 = field_53;
+			}
+			else {
+				field_102 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
+			}
+
+			if (!field_73 && !field_71) {
+				field_43 = field_51;
+			}
+			else {
+				field_43 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
+			}
+
+			if (!field_75 && !field_71) {
+				field_45 = field_53;
+			}
+			else {
+				field_45 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
+			}
+
+			++posX;
+			var12 = (field_101 + field_102 + field_94 + field_53) / 4.0F;
+			var9 = (field_94 + field_53 + field_44 + field_45) / 4.0F;
+			var10 = (field_51 + field_94 + field_43 + field_44) / 4.0F;
+			var11 = (field_100 + field_101 + field_51 + field_94) / 4.0F;
+
+			red1 = red2 = red3 = red4 = (var17 != 0 ? red : 1.0F) * 0.6F;
+			green1 = green2 = green3 = green4 = (var17 != 0 ? green : 1.0F) * 0.6F;
+			blue1 = blue2 = blue3 = blue4 = (var17 != 0 ? blue : 1.0F) * 0.6F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 4);
 			this.method_67(arg, (double) posX, (double) posY, (double) posZ, var19);
 			if (field_67 && var19 == 3 && field_83 < 0) {
-				field_56 *= red;
-				field_57 *= red;
-				field_58 *= red;
-				field_59 *= red;
-				field_60 *= green;
-				field_61 *= green;
-				field_62 *= green;
-				field_63 *= green;
-				field_64 *= blue;
-				field_65 *= blue;
-				field_66 *= blue;
-				field_68 *= blue;
+				red1 *= red;
+				red2 *= red;
+				red3 *= red;
+				red4 *= red;
+				green1 *= green;
+				green2 *= green;
+				green3 *= green;
+				green4 *= green;
+				blue1 *= blue;
+				blue2 *= blue;
+				blue3 *= blue;
+				blue4 *= blue;
 				this.method_67(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X)) {
-			if (field_55 <= 0) {
-				var12 = field_97;
-				var11 = field_97;
-				var10 = field_97;
-				var9 = field_97;
+		if (shouldRenderFace(CoreLib.FACE_POS_X)) {
+			++posX;
+			field_41 = arg.method_1604(tileView, posX, posY - 1, posZ);
+			field_52 = arg.method_1604(tileView, posX, posY, posZ - 1);
+			field_54 = arg.method_1604(tileView, posX, posY, posZ + 1);
+			field_48 = arg.method_1604(tileView, posX, posY + 1, posZ);
+			if (!field_78 && !field_76) {
+				field_105 = field_52;
 			}
 			else {
-				++posX;
-				field_41 = arg.method_1604(tileView, posX, posY - 1, posZ);
-				field_52 = arg.method_1604(tileView, posX, posY, posZ - 1);
-				field_54 = arg.method_1604(tileView, posX, posY, posZ + 1);
-				field_48 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_78 && !field_76) {
-					field_105 = field_52;
-				}
-				else {
-					field_105 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
-				}
-
-				if (!field_78 && !field_74) {
-					field_42 = field_54;
-				}
-				else {
-					field_42 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
-				}
-
-				if (!field_70 && !field_76) {
-					field_47 = field_52;
-				}
-				else {
-					field_47 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
-				}
-
-				if (!field_70 && !field_74) {
-					field_50 = field_54;
-				}
-				else {
-					field_50 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
-				}
-
-				--posX;
-				var9 = (field_41 + field_42 + field_97 + field_54) / 4.0F;
-				var12 = (field_97 + field_54 + field_48 + field_50) / 4.0F;
-				var11 = (field_52 + field_97 + field_47 + field_48) / 4.0F;
-				var10 = (field_105 + field_41 + field_52 + field_97) / 4.0F;
+				field_105 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
 			}
 
-			field_56 = field_57 = field_58 = field_59 = (var18 != 0 ? red : 1.0F) * 0.6F;
-			field_60 = field_61 = field_62 = field_63 = (var18 != 0 ? green : 1.0F) * 0.6F;
-			field_64 = field_65 = field_66 = field_68 = (var18 != 0 ? blue : 1.0F) * 0.6F;
-			field_56 *= var9;
-			field_60 *= var9;
-			field_64 *= var9;
-			field_57 *= var10;
-			field_61 *= var10;
-			field_65 *= var10;
-			field_58 *= var11;
-			field_62 *= var11;
-			field_66 *= var11;
-			field_59 *= var12;
-			field_63 *= var12;
-			field_68 *= var12;
+			if (!field_78 && !field_74) {
+				field_42 = field_54;
+			}
+			else {
+				field_42 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
+			}
+
+			if (!field_70 && !field_76) {
+				field_47 = field_52;
+			}
+			else {
+				field_47 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
+			}
+
+			if (!field_70 && !field_74) {
+				field_50 = field_54;
+			}
+			else {
+				field_50 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
+			}
+
+			--posX;
+			var9 = (field_41 + field_42 + field_97 + field_54) / 4.0F;
+			var12 = (field_97 + field_54 + field_48 + field_50) / 4.0F;
+			var11 = (field_52 + field_97 + field_47 + field_48) / 4.0F;
+			var10 = (field_105 + field_41 + field_52 + field_97) / 4.0F;
+
+			red1 = red2 = red3 = red4 = (var18 != 0 ? red : 1.0F) * 0.6F;
+			green1 = green2 = green3 = green4 = (var18 != 0 ? green : 1.0F) * 0.6F;
+			blue1 = blue2 = blue3 = blue4 = (var18 != 0 ? blue : 1.0F) * 0.6F;
+			red1 *= var9;
+			green1 *= var9;
+			blue1 *= var9;
+			red2 *= var10;
+			green2 *= var10;
+			blue2 *= var10;
+			red3 *= var11;
+			green3 *= var11;
+			blue3 *= var11;
+			red4 *= var12;
+			green4 *= var12;
+			blue4 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 5);
 			this.method_69(arg, (double) posX, (double) posY, (double) posZ, var19);
 			if (field_67 && var19 == 3 && field_83 < 0) {
-				field_56 *= red;
-				field_57 *= red;
-				field_58 *= red;
-				field_59 *= red;
-				field_60 *= green;
-				field_61 *= green;
-				field_62 *= green;
-				field_63 *= green;
-				field_64 *= blue;
-				field_65 *= blue;
-				field_66 *= blue;
-				field_68 *= blue;
+				red1 *= red;
+				red2 *= red;
+				red3 *= red;
+				red4 *= red;
+				green1 *= green;
+				green2 *= green;
+				green3 *= green;
+				green4 *= green;
+				blue1 *= blue;
+				blue2 *= blue;
+				blue3 *= blue;
+				blue4 *= blue;
 				this.method_69(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		field_92 = false;
+		hasColor = false;
 	}
 
 	public void method_69(Tile arg, double d, double d1, double d2, int i) {
-		Tessellator var9 = Tessellator.INSTANCE;
+		Tessellator tesselator = Tessellator.INSTANCE;
 		if (field_83 >= 0) {
 			i = field_83;
 		}
@@ -821,26 +771,26 @@ public class ShapeBoxCustom extends Shape {
 		double var32 = d1 + POS_MAX.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
-			var9.vertex(var28, var30, var36, var22, var26);
-			var9.colour(field_57, field_61, field_65);
-			var9.vertex(var28, var30, var34, var14, var18);
-			var9.colour(field_58, field_62, field_66);
-			var9.vertex(var28, var32, var34, var42, var24);
-			var9.colour(field_59, field_63, field_68);
-			var9.vertex(var28, var32, var36, var12, var16);
+		if (hasColor) {
+			tesselator.colour(red1, green1, blue1);
+			tesselator.vertex(var28, var30, var36, var22, var26);
+			tesselator.colour(red2, green2, blue2);
+			tesselator.vertex(var28, var30, var34, var14, var18);
+			tesselator.colour(red3, green3, blue3);
+			tesselator.vertex(var28, var32, var34, var42, var24);
+			tesselator.colour(red4, green4, blue4);
+			tesselator.vertex(var28, var32, var36, var12, var16);
 		}
 		else {
-			var9.vertex(var28, var30, var36, var22, var26);
-			var9.vertex(var28, var30, var34, var14, var18);
-			var9.vertex(var28, var32, var34, var42, var24);
-			var9.vertex(var28, var32, var36, var12, var16);
+			tesselator.vertex(var28, var30, var36, var22, var26);
+			tesselator.vertex(var28, var30, var34, var14, var18);
+			tesselator.vertex(var28, var32, var34, var42, var24);
+			tesselator.vertex(var28, var32, var36, var12, var16);
 		}
 	}
 
 	public void method_46(Tile arg, double d, double d1, double d2, int i) {
-		Tessellator var9 = Tessellator.INSTANCE;
+		Tessellator tesselator = Tessellator.INSTANCE;
 		if (field_83 >= 0) {
 			i = field_83;
 		}
@@ -849,84 +799,84 @@ public class ShapeBoxCustom extends Shape {
 		float var11 = uv.getStart().getY();
 		float dx = uv.getEnd().getX() - uv.getStart().getX();
 		float dy = uv.getEnd().getY() - uv.getStart().getY();
-		double var12 = var10 + POS_MIN.getX() * dx;
-		double var14 = var10 + POS_MAX.getX() * dx;
-		double var16 = var11 + POS_MIN.getZ() * dy;
-		double var18 = var11 + POS_MAX.getZ() * dy;
+		double u2 = var10 + POS_MIN.getX() * dx;
+		double u4 = var10 + POS_MAX.getX() * dx;
+		double v2 = var11 + POS_MIN.getZ() * dy;
+		double v4 = var11 + POS_MAX.getZ() * dy;
 		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
-			var12 = var10;
-			var14 = var10 + dx;
+			u2 = var10;
+			u4 = var10 + dx;
 		}
 
 		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
-			var16 = var11;
-			var18 = var11 + dy;
+			v2 = var11;
+			v4 = var11 + dy;
 		}
 
-		double var20 = var14;
-		double var22 = var12;
-		double var24 = var16;
-		double var26 = var18;
+		double u3 = u4;
+		double u1 = u2;
+		double v3 = v2;
+		double v1 = v4;
 		if (field_91 == 2) {
-			var12 = var10 + POS_MIN.getZ() * dx;
-			var16 = (var11 + dy) - POS_MAX.getX() * dy;
-			var14 = var10 + POS_MAX.getZ() * dx;
-			var18 = (var11 + dy) - POS_MIN.getX() * dy;
-			var24 = var16;
-			var26 = var18;
-			var20 = var12;
-			var22 = var14;
-			var16 = var18;
-			var18 = var16;
+			u2 = var10 + POS_MIN.getZ() * dx;
+			v2 = (var11 + dy) - POS_MAX.getX() * dy;
+			u4 = var10 + POS_MAX.getZ() * dx;
+			v4 = (var11 + dy) - POS_MIN.getX() * dy;
+			v3 = v2;
+			v1 = v4;
+			u3 = u2;
+			u1 = u4;
+			v2 = v4;
+			v4 = v2;
 		}
 		else if (field_91 == 1) {
-			var12 = (var10 + dx) - POS_MAX.getZ() * dx;
-			var16 = var11 + POS_MIN.getX() * dy;
-			var14 = (var10 + dx) - POS_MIN.getZ() * dx;
-			var18 = var11 + POS_MAX.getX() * dy;
-			var20 = var14;
-			var22 = var12;
-			var12 = var14;
-			var14 = var12;
-			var24 = var18;
-			var26 = var16;
+			u2 = (var10 + dx) - POS_MAX.getZ() * dx;
+			v2 = var11 + POS_MIN.getX() * dy;
+			u4 = (var10 + dx) - POS_MIN.getZ() * dx;
+			v4 = var11 + POS_MAX.getX() * dy;
+			u3 = u4;
+			u1 = u2;
+			u2 = u4;
+			u4 = u2;
+			v3 = v4;
+			v1 = v2;
 		}
 		else if (field_91 == 3) {
-			var12 = (var10 + dx) - POS_MIN.getX() * dx;
-			var14 = (var10 + dx) - POS_MAX.getX() * dx;
-			var16 = (var11 + dy) - POS_MIN.getZ() * dy;
-			var18 = (var11 + dy) - POS_MAX.getZ() * dy;
-			var20 = var14;
-			var22 = var12;
-			var24 = var16;
-			var26 = var18;
+			u2 = (var10 + dx) - POS_MIN.getX() * dx;
+			u4 = (var10 + dx) - POS_MAX.getX() * dx;
+			v2 = (var11 + dy) - POS_MIN.getZ() * dy;
+			v4 = (var11 + dy) - POS_MAX.getZ() * dy;
+			u3 = u4;
+			u1 = u2;
+			v3 = v2;
+			v1 = v4;
 		}
 
-		double var28 = d + POS_MIN.getX();
-		double var30 = d + POS_MAX.getX();
-		double var32 = d1 + POS_MIN.getY();
-		double var34 = d2 + POS_MIN.getZ();
-		double var36 = d2 + POS_MAX.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
-			var9.vertex(var28, var32, var36, var22, var26);
-			var9.colour(field_57, field_61, field_65);
-			var9.vertex(var28, var32, var34, var12, var16);
-			var9.colour(field_58, field_62, field_66);
-			var9.vertex(var30, var32, var34, var20, var24);
-			var9.colour(field_59, field_63, field_68);
-			var9.vertex(var30, var32, var36, var14, var18);
+		double x1 = d + POS_MIN.getX();
+		double x2 = d + POS_MAX.getX();
+		double y1 = d1 + POS_MIN.getY();
+		double z1 = d2 + POS_MIN.getZ();
+		double z2 = d2 + POS_MAX.getZ();
+		if (hasColor) {
+			tesselator.colour(red1, green1, blue1);
+			tesselator.vertex(x1, y1, z2, u1, v1);
+			tesselator.colour(red2, green2, blue2);
+			tesselator.vertex(x1, y1, z1, u2, v2);
+			tesselator.colour(red3, green3, blue3);
+			tesselator.vertex(x2, y1, z1, u3, v3);
+			tesselator.colour(red4, green4, blue4);
+			tesselator.vertex(x2, y1, z2, u4, v4);
 		}
 		else {
-			var9.vertex(var28, var32, var36, var22, var26);
-			var9.vertex(var28, var32, var34, var12, var16);
-			var9.vertex(var30, var32, var34, var20, var24);
-			var9.vertex(var30, var32, var36, var14, var18);
+			tesselator.vertex(x1, y1, z2, u1, v1);
+			tesselator.vertex(x1, y1, z1, u2, v2);
+			tesselator.vertex(x2, y1, z1, u3, v3);
+			tesselator.vertex(x2, y1, z2, u4, v4);
 		}
 	}
 
 	public void method_55(Tile arg, double d, double d1, double d2, int i) {
-		Tessellator var9 = Tessellator.INSTANCE;
+		Tessellator tesselator = Tessellator.INSTANCE;
 		if (field_83 >= 0) {
 			i = field_83;
 		}
@@ -935,79 +885,79 @@ public class ShapeBoxCustom extends Shape {
 		float var11 = uv.getStart().getY();
 		float dx = uv.getEnd().getX() - uv.getStart().getX();
 		float dy = uv.getEnd().getY() - uv.getStart().getY();
-		double var12 = var10 + POS_MIN.getX() * dx;
-		double var14 = var10 + POS_MAX.getX() * dx;
-		double var16 = var11 + POS_MIN.getZ() * dy;
-		double var18 = var11 + POS_MAX.getZ() * dy;
+		double u3 = var10 + POS_MIN.getX() * dx;
+		double u1 = var10 + POS_MAX.getX() * dx;
+		double v3 = var11 + POS_MIN.getZ() * dy;
+		double v1 = var11 + POS_MAX.getZ() * dy;
 		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
-			var12 = var10;
-			var14 = var10 + dx;
+			u3 = var10;
+			u1 = var10 + dx;
 		}
 
 		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
-			var16 = var11;
-			var18 = var11 + dy;
+			v3 = var11;
+			v1 = var11 + dy;
 		}
 
-		double var20 = var14;
-		double var22 = var12;
-		double var24 = var16;
-		double var26 = var18;
+		double u2 = u1;
+		double u4 = u3;
+		double v2 = v3;
+		double v4 = v1;
 		if (field_90 == 1) {
-			var12 = var10 + POS_MIN.getZ() * dx;
-			var16 = (var11 + dy) - POS_MAX.getX() * dy;
-			var14 = var10 + POS_MAX.getZ() * dx;
-			var18 = (var11 + dy) - POS_MIN.getX() * dy;
-			var24 = var16;
-			var26 = var18;
-			var20 = var12;
-			var22 = var14;
-			var16 = var18;
-			var18 = var16;
+			u3 = var10 + POS_MIN.getZ() * dx;
+			v3 = (var11 + dy) - POS_MAX.getX() * dy;
+			u1 = var10 + POS_MAX.getZ() * dx;
+			v1 = (var11 + dy) - POS_MIN.getX() * dy;
+			v2 = v3;
+			v4 = v1;
+			u2 = u3;
+			u4 = u1;
+			v3 = v1;
+			v1 = v3;
 		}
 		else if (field_90 == 2) {
-			var12 = (var10 + dx) - POS_MAX.getZ() * dx;
-			var16 = var11 + POS_MIN.getX() * dy;
-			var14 = (var10 + dx) - POS_MIN.getZ() * dx;
-			var18 = var11 + POS_MAX.getX() * dy;
-			var20 = var14;
-			var22 = var12;
-			var12 = var14;
-			var14 = var12;
-			var24 = var18;
-			var26 = var16;
+			u3 = (var10 + dx) - POS_MAX.getZ() * dx;
+			v3 = var11 + POS_MIN.getX() * dy;
+			u1 = (var10 + dx) - POS_MIN.getZ() * dx;
+			v1 = var11 + POS_MAX.getX() * dy;
+			u2 = u1;
+			u4 = u3;
+			u3 = u1;
+			u1 = u3;
+			v2 = v1;
+			v4 = v3;
 		}
 		else if (field_90 == 3) {
-			var12 = (var10 + dx) - POS_MIN.getX() * dx;
-			var14 = (var10 + dx) - POS_MAX.getX() * dx;
-			var16 = (var11 + dy) - POS_MIN.getZ() * dy;
-			var18 = (var11 + dy) - POS_MAX.getZ() * dy;
-			var20 = var14;
-			var22 = var12;
-			var24 = var16;
-			var26 = var18;
+			u3 = (var10 + dx) - POS_MIN.getX() * dx;
+			u1 = (var10 + dx) - POS_MAX.getX() * dx;
+			v3 = (var11 + dy) - POS_MIN.getZ() * dy;
+			v1 = (var11 + dy) - POS_MAX.getZ() * dy;
+			u2 = u1;
+			u4 = u3;
+			v2 = v3;
+			v4 = v1;
 		}
 
-		double var28 = d + POS_MIN.getX();
-		double var30 = d + POS_MAX.getX();
-		double var32 = d1 + POS_MAX.getY();
-		double var34 = d2 + POS_MIN.getZ();
-		double var36 = d2 + POS_MAX.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
-			var9.vertex(var30, var32, var36, var14, var18);
-			var9.colour(field_57, field_61, field_65);
-			var9.vertex(var30, var32, var34, var20, var24);
-			var9.colour(field_58, field_62, field_66);
-			var9.vertex(var28, var32, var34, var12, var16);
-			var9.colour(field_59, field_63, field_68);
-			var9.vertex(var28, var32, var36, var22, var26);
+		double x1 = d + POS_MIN.getX();
+		double x2 = d + POS_MAX.getX();
+		double y2 = d1 + POS_MAX.getY();
+		double z1 = d2 + POS_MIN.getZ();
+		double z2 = d2 + POS_MAX.getZ();
+		if (hasColor) {
+			tesselator.colour(red1, green1, blue1);
+			tesselator.vertex(x2, y2, z2, u1, v1);
+			tesselator.colour(red2, green2, blue2);
+			tesselator.vertex(x2, y2, z1, u2, v2);
+			tesselator.colour(red3, green3, blue3);
+			tesselator.vertex(x1, y2, z1, u3, v3);
+			tesselator.colour(red4, green4, blue4);
+			tesselator.vertex(x1, y2, z2, u4, v4);
 		}
 		else {
-			var9.vertex(var30, var32, var36, var14, var18);
-			var9.vertex(var30, var32, var34, var20, var24);
-			var9.vertex(var28, var32, var34, var12, var16);
-			var9.vertex(var28, var32, var36, var22, var26);
+			tesselator.vertex(x2, y2, z2, u1, v1);
+			tesselator.vertex(x2, y2, z1, u2, v2);
+			tesselator.vertex(x1, y2, z1, u3, v3);
+			tesselator.vertex(x1, y2, z2, u4, v4);
 		}
 	}
 
@@ -1085,14 +1035,14 @@ public class ShapeBoxCustom extends Shape {
 		double var32 = d1 + POS_MIN.getY();
 		double var34 = d1 + POS_MAX.getY();
 		double var36 = d2 + POS_MIN.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
+		if (hasColor) {
+			var9.colour(red1, green1, blue1);
 			var9.vertex(var28, var34, var36, var42, var24);
-			var9.colour(field_57, field_61, field_65);
+			var9.colour(red2, green2, blue2);
 			var9.vertex(var30, var34, var36, var12, var16);
-			var9.colour(field_58, field_62, field_66);
+			var9.colour(red3, green3, blue3);
 			var9.vertex(var30, var32, var36, var22, var26);
-			var9.colour(field_59, field_63, field_68);
+			var9.colour(red4, green4, blue4);
 			var9.vertex(var28, var32, var36, var14, var18);
 		}
 		else {
@@ -1177,14 +1127,14 @@ public class ShapeBoxCustom extends Shape {
 		double var32 = d1 + POS_MIN.getY();
 		double var34 = d1 + POS_MAX.getY();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
+		if (hasColor) {
+			var9.colour(red1, green1, blue1);
 			var9.vertex(var28, var34, var36, var12, var16);
-			var9.colour(field_57, field_61, field_65);
+			var9.colour(red2, green2, blue2);
 			var9.vertex(var28, var32, var36, var22, var26);
-			var9.colour(field_58, field_62, field_66);
+			var9.colour(red3, green3, blue3);
 			var9.vertex(var30, var32, var36, var14, var18);
-			var9.colour(field_59, field_63, field_68);
+			var9.colour(red4, green4, blue4);
 			var9.vertex(var30, var34, var36, var42, var24);
 		}
 		else {
@@ -1269,14 +1219,14 @@ public class ShapeBoxCustom extends Shape {
 		double var32 = d1 + POS_MAX.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92) {
-			var9.colour(field_56, field_60, field_64);
+		if (hasColor) {
+			var9.colour(red1, green1, blue1);
 			var9.vertex(var28, var32, var36, u3, v3);
-			var9.colour(field_57, field_61, field_65);
+			var9.colour(red2, green2, blue2);
 			var9.vertex(var28, var32, var34, u1, v1);
-			var9.colour(field_58, field_62, field_66);
+			var9.colour(red3, green3, blue3);
 			var9.vertex(var28, var30, var34, u4, v4);
-			var9.colour(field_59, field_63, field_68);
+			var9.colour(red4, green4, blue4);
 			var9.vertex(var28, var30, var36, u2, v2);
 		}
 		else {

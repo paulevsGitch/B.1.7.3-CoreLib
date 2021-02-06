@@ -8,6 +8,7 @@ import net.minecraft.level.TileView;
 import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
 import paulevs.corelib.LocationRandom;
+import paulevs.corelib.math.MHelper;
 import paulevs.corelib.math.Vec3F;
 import paulevs.corelib.math.Vec3I;
 import paulevs.corelib.texture.UVPair;
@@ -15,6 +16,7 @@ import paulevs.corelib.texture.UVPair;
 public abstract class Shape {
 	protected static final boolean[] RENDER_WORLD = new boolean[6];
 	protected static final boolean[] RENDER_FACE = new boolean[6];
+	protected static final UVPair[] DESTRUCTION = new UVPair[10];
 
 	private static final LocationRandom RANDOM = new LocationRandom();
 	protected static final Vec3F RENDER_POS = new Vec3F();
@@ -27,6 +29,7 @@ public abstract class Shape {
 	protected static Tile tile = Tile.STONE;
 	protected static UVPair uv = new UVPair();
 	protected static int meta = 0;
+	protected static int destruction;
 
 	public static void setPos(int x, int y, int z) {
 		POS.set(x, y, z);
@@ -66,7 +69,7 @@ public abstract class Shape {
 	}
 
 	public static void setUV(UVPair uv) {
-		Shape.uv = uv;
+		Shape.uv = destruction < 0 ? uv : getDestruction();
 	}
 
 	public static void setLight(float light) {
@@ -146,5 +149,18 @@ public abstract class Shape {
 
 	public static Tile getTile() {
 		return tile;
+	}
+	
+	public static void setDestruction(int destruction) {
+		Shape.destruction = destruction;
+	}
+	
+	private static UVPair getDestruction() {
+		if (DESTRUCTION[0] == null) {
+			for (int i = 0; i < 10; i++) {
+				DESTRUCTION[i] = UVPair.getVanillaUV(240 + i);
+			}
+		}
+		return DESTRUCTION[MHelper.clamp(destruction, 0, 9)];
 	}
 }

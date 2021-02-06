@@ -33,4 +33,12 @@ public class UVPair {
 		Vec2F end = new Vec2F().set(start).add(16F / CoreLib.blocksAtlas.getSize());
 		return new UVPair(start, end);
 	}
+	
+	public static UVPair getVanillaUV(int index) {
+		int x = (index & 15) << 4;
+		int y = index & 240;
+		Vec2F start = new Vec2F(x / CoreLib.blocksAtlas.getSize(), y / CoreLib.blocksAtlas.getSize());
+		Vec2F end = new Vec2F().set(start).add(16F / CoreLib.blocksAtlas.getSize());
+		return new UVPair(start, end);
+	}
 }

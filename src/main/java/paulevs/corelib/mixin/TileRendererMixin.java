@@ -25,7 +25,16 @@ public class TileRendererMixin {
 
 	@Shadow
 	public boolean field_81;
+	
+	/**
+	 * Destruction stage, if = -1 then normal block render, otherwise used as index
+	 */
+	@Shadow
+	private int field_83;
 
+	/**
+	 * Main method to render block in the world
+	 */
 	@Inject(method = "method_57", at = @At("HEAD"), cancellable = true)
 	private void renderBlock(Tile tile, int x, int y, int z, CallbackInfoReturnable<Boolean> info) {
 		int meta = field_82.getTileMeta(x, y, z);
@@ -35,18 +44,28 @@ public class TileRendererMixin {
 			Shape.setPos(x, y, z);
 			Shape.setTile(tile);
 			Shape.setRenderer((TileRenderer) (Object) this);
-			Shape.setMeta(meta);
 			Shape.setWorldCulling(false);
+			Shape.setColorFromWorld();
+			Shape.setLightFromWorld();
+			Shape.setMeta(meta);
 			Shape.resetOffset();
 			Shape.drawAll();
 
+			if (field_83 > -1) {
+				Shape.setDestruction(field_83 - 240);
+			}
+			
 			model.renderBlock();
 
+			Shape.setDestruction(-1);
 			info.setReturnValue(true);
 			info.cancel();
 		}
 	}
 
+	/**
+	 * Main method to render block item in the world
+	 */
 	@Inject(method = "method_48", at = @At("HEAD"), cancellable = true)
 	private void renderItem(Tile tile, int meta, float f, CallbackInfo info) {
 		Model model = ModelRegistry.getBlockModel(tile, meta);
@@ -71,7 +90,7 @@ public class TileRendererMixin {
 			info.cancel();
 		}
 	}
-
+	
 	@ModifyConstant(method = "*", constant = @Constant(floatValue = 256.0F), expect = 3)
 	private float changeSizeF(float original) {
 		return CoreLib.blocksAtlas.getSize();

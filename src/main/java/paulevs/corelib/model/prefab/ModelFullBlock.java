@@ -17,25 +17,18 @@ public class ModelFullBlock extends Model {
 
 	@Override
 	public void renderBlock() {
-		this.setTexture(texture);
-		Shape.setWorldCulling(false);
-		Shape.setColorFromWorld();
-		Shape.setLightFromWorld();
-		Shape.setUV(getBlockUV());
-		BOX.render();
+		render();
 	}
 
 	@Override
 	public void renderItem() {
+		render();
+	}
+	
+	private void render() {
 		this.setTexture(texture);
-		Shape.setOffsetItem();
-		Shape.drawAll();
-		Shape.setWorldCulling(true);
-		Shape.setColorFromWorld();
-		Shape.setLightFromWorld();
 		Shape.setUV(getBlockUV());
 		BOX.render();
-		Shape.resetOffset();
 	}
 	
 	@Override

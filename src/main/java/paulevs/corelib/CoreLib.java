@@ -1,6 +1,9 @@
 package paulevs.corelib;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.tile.Tile;
+import paulevs.corelib.api.ModelRegistry;
+import paulevs.corelib.model.prefab.ModelFullBlock;
 import paulevs.corelib.texture.TextureAtlas;
 
 public class CoreLib implements ModInitializer {
@@ -20,6 +23,7 @@ public class CoreLib implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		System.out.println("CoreLib Initialized");
+		ModelRegistry.addBlockModel(Tile.WOOD, new ModelFullBlock("test", "/assets/corelib/nylium.png"));
 	}
 
 	public static float getAtlasSize() {

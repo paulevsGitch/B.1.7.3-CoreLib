@@ -45,10 +45,8 @@ public class ItemRendererMixin {
 			CoreLib.ITEM_VIEW.setTile(0);
 			Shape.setTileView(CoreLib.ITEM_VIEW);
 			Shape.setMeta(entity.item.getDamage());
-			Shape.setPos(0, 0, 0);
 			Shape.setRenderer(field_1708);
 			Shape.setWorldCulling(true);
-			Shape.resetOffset();
 			Shape.drawAll();
 
 			rand.setSeed(187L);
@@ -88,10 +86,12 @@ public class ItemRendererMixin {
 					GL11.glTranslatef(var16, var17, var18);
 				}
 
+				Shape.setOffsetItem();
 				Tessellator.INSTANCE.start();
 				Tessellator.INSTANCE.method_1697(0.0F, -1.0F, 0.0F);
 				model.renderItem();
 				Tessellator.INSTANCE.draw();
+				Shape.resetOffset();
 				GL11.glPopMatrix();
 			}
 
