@@ -1,4 +1,4 @@
-package paulevs.corelib.mixin;
+package paulevs.corelib.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,8 +19,7 @@ import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
 
 @Mixin(TileRenderer.class)
-public class TileRendererMixin
-{
+public class TileRendererMixin {
 	@Shadow
 	private TileView field_82;
 
@@ -28,12 +27,10 @@ public class TileRendererMixin
 	public boolean field_81;
 
 	@Inject(method = "method_57", at = @At("HEAD"), cancellable = true)
-	private void renderBlock(Tile tile, int x, int y, int z, CallbackInfoReturnable<Boolean> info)
-	{
+	private void renderBlock(Tile tile, int x, int y, int z, CallbackInfoReturnable<Boolean> info) {
 		int meta = field_82.getTileMeta(x, y, z);
 		Model model = ModelRegistry.getBlockModel(tile, meta);
-		if (model != null)
-		{
+		if (model != null) {
 			Shape.setTileView(field_82);
 			Shape.setPos(x, y, z);
 			Shape.setTile(tile);
@@ -51,11 +48,9 @@ public class TileRendererMixin
 	}
 
 	@Inject(method = "method_48", at = @At("HEAD"), cancellable = true)
-	private void renderItem(Tile tile, int meta, float f, CallbackInfo info)
-	{
+	private void renderItem(Tile tile, int meta, float f, CallbackInfo info) {
 		Model model = ModelRegistry.getBlockModel(tile, meta);
-		if (model != null && model.hasItem())
-		{
+		if (model != null && model.hasItem()) {
 			CoreLib.ITEM_VIEW.setTile(tile.id);
 			CoreLib.ITEM_VIEW.setMeta(meta);
 			field_82 = CoreLib.ITEM_VIEW;
@@ -78,14 +73,12 @@ public class TileRendererMixin
 	}
 
 	@ModifyConstant(method = "*", constant = @Constant(floatValue = 256.0F), expect = 3)
-	private float changeSizeF(float original)
-	{
+	private float changeSizeF(float original) {
 		return CoreLib.blocksAtlas.getSize();
 	}
 
 	@ModifyConstant(method = "*", constant = @Constant(doubleValue = 256.0D), expect = 3)
-	private double changeSizeD(double original)
-	{
+	private double changeSizeD(double original) {
 		return CoreLib.blocksAtlas.getSize();
 	}
 }

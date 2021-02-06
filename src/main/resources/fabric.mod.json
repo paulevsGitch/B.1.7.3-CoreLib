@@ -23,7 +23,8 @@
     ]
   },
   "mixins": [
-    "corelib.mixins.json"
+    "corelib.mixins.common.json",
+    "corelib.mixins.client.json"
   ],
 
   "depends": {

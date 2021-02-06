@@ -1,4 +1,4 @@
-package paulevs.corelib.mixin;
+package paulevs.corelib.mixin.common;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,15 +12,12 @@ import net.minecraft.util.io.CompoundTag;
 import paulevs.corelib.storage.DoubleNibbleArray;
 
 @Mixin(class_445.class)
-public class Class445Mixin
-{
+public class Class445Mixin {
 	@Inject(method = "method_1479", at = @At("RETURN"))
-	private static void replaceArray(Level arg, CompoundTag arg1, CallbackInfoReturnable<Chunk> info)
-	{
+	private static void replaceArray(Level arg, CompoundTag arg1, CallbackInfoReturnable<Chunk> info) {
 		Chunk chunk = info.getReturnValue();
 		chunk.field_957 = new DoubleNibbleArray(arg1.getByteArray("Data"));
-		if (!chunk.field_957.method_1702())
-		{
+		if (!chunk.field_957.method_1702()) {
 			chunk.field_957 = new DoubleNibbleArray(chunk.tiles.length);
 		}
 	}

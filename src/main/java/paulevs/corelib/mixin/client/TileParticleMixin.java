@@ -1,4 +1,4 @@
-package paulevs.corelib.mixin;
+package paulevs.corelib.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,46 +19,39 @@ import paulevs.corelib.model.Model;
 import paulevs.corelib.texture.UVPair;
 
 @Mixin(TileParticle.class)
-public abstract class TileParticleMixin extends ParticleEntity
-{
+public abstract class TileParticleMixin extends ParticleEntity {
 	@Shadow
 	private Tile field_2383;
 
 	@Shadow
 	private int field_2384;
 
-	public TileParticleMixin(Level level, double x, double y, double z, double d3, double d4, double d5)
-	{
+	public TileParticleMixin(Level level, double x, double y, double z, double d3, double d4, double d5) {
 		super(level, x, y, z, d3, d4, d5);
 	}
 
 	@ModifyConstant(method = "method_2002", constant = @Constant(floatValue = 16.0F), expect = 3)
-	private float changeSizeAtlas(float original)
-	{
+	private float changeSizeAtlas(float original) {
 		return CoreLib.getAtlasSize() / 16F;
 	}
 
 	@ModifyConstant(method = "method_2002", constant = @Constant(floatValue = 0.015609375F), expect = 3)
-	private float changeSizeOffset(float original)
-	{
+	private float changeSizeOffset(float original) {
 		return 3.999F / CoreLib.getAtlasSize();
 	}
 
 	@Inject(method = "method_2002", at = @At("HEAD"), cancellable = true)
 	private void replaceParticles(Tessellator tesselator, float f, float f1, float f2, float f3, float f4, float f5,
-			CallbackInfo info)
-	{
+			CallbackInfo info) {
 		Model model = ModelRegistry.getBlockModel(field_2383, field_2384);
-		if (model != null)
-		{
+		if (model != null) {
 			customParticle(model.particleUV(), tesselator, f, f1, f2, f3, f4, f5);
 			info.cancel();
 		}
 	}
 
 	private void customParticle(UVPair uv, Tessellator tesselator, float f, float f1, float f2, float f3, float f4,
-			float f5)
-	{
+			float f5) {
 		float dx = uv.getEnd().getX() - uv.getStart().getX();
 		float dy = uv.getEnd().getY() - uv.getStart().getY();
 		float d = 4F / CoreLib.getAtlasSize();

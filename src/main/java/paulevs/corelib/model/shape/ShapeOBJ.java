@@ -13,63 +13,50 @@ import paulevs.corelib.math.MHelper;
 import paulevs.corelib.math.Vec3F;
 import paulevs.corelib.texture.UVPair;
 
-public class ShapeOBJ extends Shape
-{
+public class ShapeOBJ extends Shape {
 	private final float[] data;
 	private final float[] light;
 
-	public ShapeOBJ(String model)
-	{
+	public ShapeOBJ(String model) {
 		List<List<Integer>> groups = new ArrayList<List<Integer>>();
 		List<Float> vertex = new ArrayList<Float>();
 		List<Float> uvs = new ArrayList<Float>();
 
-		try
-		{
+		try {
 			InputStream input = ShapeOBJ.class.getResourceAsStream(model);
-			if (input != null)
-			{
+			if (input != null) {
 				InputStreamReader streamReader = new InputStreamReader(input);
 				BufferedReader reader = new BufferedReader(streamReader);
 				String string;
 
-				while ((string = reader.readLine()) != null)
-				{
-					if (string.startsWith("vt"))
-					{
+				while ((string = reader.readLine()) != null) {
+					if (string.startsWith("vt")) {
 						String[] uv = string.split(" ");
 						uvs.add(Float.parseFloat(uv[1]));
 						uvs.add(Float.parseFloat(uv[2]));
 					}
-					else if (string.startsWith("v"))
-					{
+					else if (string.startsWith("v")) {
 						String[] vert = string.split(" ");
 						for (int i = 1; i < 4; i++)
 							vertex.add(Float.parseFloat(vert[i]));
 					}
-					else if (string.startsWith("f"))
-					{
+					else if (string.startsWith("f")) {
 						List<Integer> list = new ArrayList<Integer>();
 						List<Integer> uvList = new ArrayList<Integer>();
 						String[] members = string.split(" ");
-						if (members.length < 5)
-						{
+						if (members.length < 5) {
 							System.out.println("Only qads in OBJ are supported!");
 						}
-						else
-						{
-							for (int i = 1; i < 5; i++)
-							{
+						else {
+							for (int i = 1; i < 5; i++) {
 								String member = members[i];
 
-								if (member.contains("/"))
-								{
+								if (member.contains("/")) {
 									String[] sub = member.split("/");
 									list.add(Integer.parseInt(sub[0]) - 1); // Vertex
 									uvList.add(Integer.parseInt(sub[1]) - 1); // UV
 								}
-								else
-								{
+								else {
 									list.add(Integer.parseInt(member) - 1); // Vertex
 								}
 							}
@@ -84,8 +71,7 @@ public class ShapeOBJ extends Shape
 				input.close();
 			}
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -96,40 +82,33 @@ public class ShapeOBJ extends Shape
 		int i = 0;
 		int n = 0;
 		Vec3F up = new Vec3F(0, 1, 0);
-		for (List<Integer> quad : groups)
-		{
+		for (List<Integer> quad : groups) {
 			Vec3F p0 = null;
 			Vec3F p1 = null;
 			Vec3F p2 = null;
 
-			for (int j = 0; j < 4; j++)
-			{
+			for (int j = 0; j < 4; j++) {
 				int vi = quad.get(j) * 3;
 				data[i] = vertex.get(vi);
 				data[i + 1] = vertex.get(vi + 1);
 				data[i + 2] = vertex.get(vi + 2);
 
-				if (j == 0)
-				{
+				if (j == 0) {
 					p1 = new Vec3F(data[i], data[i + 1], data[i + 2]);
 				}
-				else if (j == 1)
-				{
+				else if (j == 1) {
 					p0 = new Vec3F(data[i], data[i + 1], data[i + 2]);
 				}
-				else if (j == 2)
-				{
+				else if (j == 2) {
 					p2 = new Vec3F(data[i], data[i + 1], data[i + 2]);
 				}
 
-				if (hasUV)
-				{
+				if (hasUV) {
 					vi = quad.get(j + 4) * 2;
 					data[i + 3] = uvs.get(vi);
 					data[i + 4] = uvs.get(vi + 1);
 				}
-				else
-				{
+				else {
 					data[i + 3] = 0;
 					data[i + 4] = 0;
 				}
@@ -146,14 +125,12 @@ public class ShapeOBJ extends Shape
 	}
 
 	@Override
-	public void render()
-	{
+	public void render() {
 		float red = (color >> 16 & 255) / 255F;
 		float green = (color >> 8 & 255) / 255F;
 		float blue = (color & 255) / 255F;
 
-		if (GameRenderer.field_2340)
-		{
+		if (GameRenderer.field_2340) {
 			float newRed = (red * 30.0F + green * 59.0F + blue * 11.0F) / 100.0F;
 			float newGreen = (red * 30.0F + green * 70.0F) / 100.0F;
 			float newBlue = (red * 30.0F + blue * 70.0F) / 100.0F;
@@ -167,15 +144,13 @@ public class ShapeOBJ extends Shape
 		green *= Shape.light;
 		blue *= Shape.light;
 
-		for (int i = 0; i < data.length; i += 5)
-		{
+		for (int i = 0; i < data.length; i += 5) {
 			float vx = data[i];
 			float vy = data[i + 1];
 			float vz = data[i + 2];
 			float u = data[i + 3];
 			float v = data[i + 4];
-			if (i % 20 == 0)
-			{
+			if (i % 20 == 0) {
 				float l = this.light[i / 20];
 				Tessellator.INSTANCE.colour(l * red, l * green, l * blue);
 			}
@@ -183,12 +158,10 @@ public class ShapeOBJ extends Shape
 		}
 	}
 
-	public void changeUV(UVPair pair)
-	{
+	public void changeUV(UVPair pair) {
 		float du = pair.getEnd().getX() - pair.getStart().getX();
 		float dv = pair.getEnd().getY() - pair.getStart().getY();
-		for (int i = 0; i < data.length; i += 5)
-		{
+		for (int i = 0; i < data.length; i += 5) {
 			data[i + 3] = data[i + 3] * du + pair.getStart().getX();
 			data[i + 4] = data[i + 4] * dv + pair.getStart().getY();
 		}

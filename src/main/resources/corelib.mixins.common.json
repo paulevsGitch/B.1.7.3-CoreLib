@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "paulevs.corelib.mixin.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+	"Class445Mixin",
+	"ChunkMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

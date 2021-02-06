@@ -1,11 +1,7 @@
 {
   "required": true,
-  "package": "paulevs.corelib.mixin",
+  "package": "paulevs.corelib.mixin.client",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-	"Class445Mixin",
-	"ChunkMixin"
-  ],
   "client": [
 	"TileRendererMixin",
 	"MinecraftMixin",

@@ -7,8 +7,7 @@ import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
 import paulevs.corelib.math.Vec3F;
 
-public class ShapeBoxCustom extends Shape
-{
+public class ShapeBoxCustom extends Shape {
 	private static int field_83 = -1;
 	private static boolean field_84 = false;
 	private static boolean field_85 = false;
@@ -85,8 +84,7 @@ public class ShapeBoxCustom extends Shape
 	private static final Vec3F POS_MIN = new Vec3F();
 	private static final Vec3F POS_MAX = new Vec3F();
 
-	public ShapeBoxCustom(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
-	{
+	public ShapeBoxCustom(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
 		this.minX = minX;
 		this.minY = minY;
 		this.minZ = minZ;
@@ -96,13 +94,11 @@ public class ShapeBoxCustom extends Shape
 		this.maxZ = maxZ;
 	}
 
-	public ShapeBoxCustom()
-	{
+	public ShapeBoxCustom() {
 		this(0, 0, 0, 1, 1, 1);
 	}
 
-	public void reshape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
-	{
+	public void reshape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
 		this.minX = minX;
 		this.minY = minY;
 		this.minZ = minZ;
@@ -113,8 +109,7 @@ public class ShapeBoxCustom extends Shape
 	}
 
 	@Override
-	public void render()
-	{
+	public void render() {
 		POS_MIN.set(OFFSET).add(minX, minY, minZ);
 		POS_MAX.set(OFFSET).add(maxX, maxY, maxZ);
 
@@ -122,8 +117,7 @@ public class ShapeBoxCustom extends Shape
 		float green = (float) ((color >> 8) & 255) / 255F;
 		float blue = (float) (color & 255) / 255F;
 
-		if (GameRenderer.field_2340)
-		{
+		if (GameRenderer.field_2340) {
 			float newRed = (red * 30.0F + green * 59.0F + blue * 11.0F) / 100.0F;
 			float newGreen = (red * 30.0F + green * 70.0F) / 100.0F;
 			float newBlue = (red * 30.0F + blue * 70.0F) / 100.0F;
@@ -140,8 +134,7 @@ public class ShapeBoxCustom extends Shape
 			flatBox(tile, POS.getX(), POS.getY(), POS.getZ(), red, green, blue);
 	}
 
-	private void flatBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue)
-	{
+	private void flatBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue) {
 		field_92 = false;
 		Tessellator tesselator = Tessellator.INSTANCE;
 		float var10 = 0.5F;
@@ -162,19 +155,16 @@ public class ShapeBoxCustom extends Shape
 		float var25 = var13 * blue;
 
 		float var26 = arg.method_1604(tileView, posX, posY, posZ);
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y)) {
 			float var27 = arg.method_1604(tileView, posX, posY - 1, posZ);
 			tesselator.colour(var17 * var27, var20 * var27, var23 * var27);
 			this.method_46(arg, (double) posX, (double) posY, (double) posZ,
 					arg.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y)) {
 			float var27 = arg.method_1604(tileView, posX, posY + 1, posZ);
-			if (POS_MAX.getY() != 1.0D && !arg.material.isLiquid())
-			{
+			if (POS_MAX.getY() != 1.0D && !arg.material.isLiquid()) {
 				var27 = var26;
 			}
 
@@ -183,81 +173,68 @@ public class ShapeBoxCustom extends Shape
 					arg.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z)) {
 			float var27 = arg.method_1604(tileView, posX, posY, posZ - 1);
-			if (POS_MIN.getZ() > 0.0D)
-			{
+			if (POS_MIN.getZ() > 0.0D) {
 				var27 = var26;
 			}
 
 			tesselator.colour(var18 * var27, var21 * var27, var24 * var27);
 			int var28 = arg.method_1626(tileView, posX, posY, posZ, 2);
 			this.method_61(arg, (double) posX, (double) posY, (double) posZ, var28);
-			if (field_67 && var28 == 3 && field_83 < 0)
-			{
+			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var18 * var27 * red, var21 * var27 * green, var24 * var27 * blue);
 				this.method_61(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z)) {
 			float var27 = arg.method_1604(tileView, posX, posY, posZ + 1);
-			if (POS_MAX.getZ() < 1.0D)
-			{
+			if (POS_MAX.getZ() < 1.0D) {
 				var27 = var26;
 			}
 
 			tesselator.colour(var18 * var27, var21 * var27, var24 * var27);
 			int var28 = arg.method_1626(tileView, posX, posY, posZ, 3);
 			this.method_65(arg, (double) posX, (double) posY, (double) posZ, var28);
-			if (field_67 && var28 == 3 && field_83 < 0)
-			{
+			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var18 * var27 * red, var21 * var27 * green, var24 * var27 * blue);
 				this.method_65(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X)) {
 			float var27 = arg.method_1604(tileView, posX - 1, posY, posZ);
-			if (POS_MIN.getX() > 0.0D)
-			{
+			if (POS_MIN.getX() > 0.0D) {
 				var27 = var26;
 			}
 
 			tesselator.colour(var19 * var27, var22 * var27, var25 * var27);
 			int var28 = arg.method_1626(tileView, posX, posY, posZ, 4);
 			this.method_67(arg, (double) posX, (double) posY, (double) posZ, var28);
-			if (field_67 && var28 == 3 && field_83 < 0)
-			{
+			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var19 * var27 * red, var22 * var27 * green, var25 * var27 * blue);
 				this.method_67(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X))
-		{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X)) {
 			float var27 = arg.method_1604(tileView, posX + 1, posY, posZ);
-			if (POS_MAX.getX() < 1.0D)
-			{
+			if (POS_MAX.getX() < 1.0D) {
 				var27 = var26;
 			}
 
 			tesselator.colour(var19 * var27, var22 * var27, var25 * var27);
 			int var28 = arg.method_1626(tileView, posX, posY, posZ, 5);
 			this.method_69(arg, (double) posX, (double) posY, (double) posZ, var28);
-			if (field_67 && var28 == 3 && field_83 < 0)
-			{
+			if (field_67 && var28 == 3 && field_83 < 0) {
 				tesselator.colour(var19 * var27 * red, var22 * var27 * green, var25 * var27 * blue);
 				this.method_69(arg, (double) posX, (double) posY, (double) posZ, 38);
 			}
 		}
 	}
 
-	private void smoothBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue)
-	{
+	private void smoothBox(Tile arg, int posX, int posY, int posZ, float red, float green, float blue) {
 		field_92 = true;
 		float var9 = field_93;
 		float var10 = field_93;
@@ -288,8 +265,7 @@ public class ShapeBoxCustom extends Shape
 		field_69 = Tile.field_1942[tileView.getTileId(posX, posY + 1, posZ - 1)];
 		field_80 = Tile.field_1942[tileView.getTileId(posX, posY - 1, posZ + 1)];
 		field_77 = Tile.field_1942[tileView.getTileId(posX, posY - 1, posZ - 1)];
-		if (arg.tex == 3)
-		{
+		if (arg.tex == 3) {
 			var18 = 0;
 			var17 = 0;
 			var16 = 0;
@@ -297,8 +273,7 @@ public class ShapeBoxCustom extends Shape
 			var13 = 0;
 		}
 
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			var18 = 0;
 			var17 = 0;
 			var16 = 0;
@@ -306,55 +281,44 @@ public class ShapeBoxCustom extends Shape
 			var13 = 0;
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Y)) {
+			if (field_55 <= 0) {
 				var12 = field_95;
 				var11 = field_95;
 				var10 = field_95;
 				var9 = field_95;
 			}
-			else
-			{
+			else {
 				--posY;
 				field_101 = arg.method_1604(tileView, posX - 1, posY, posZ);
 				field_103 = arg.method_1604(tileView, posX, posY, posZ - 1);
 				field_104 = arg.method_1604(tileView, posX, posY, posZ + 1);
 				field_41 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				if (!field_77 && !field_79)
-				{
+				if (!field_77 && !field_79) {
 					field_100 = field_101;
 				}
-				else
-				{
+				else {
 					field_100 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
 				}
 
-				if (!field_80 && !field_79)
-				{
+				if (!field_80 && !field_79) {
 					field_102 = field_101;
 				}
-				else
-				{
+				else {
 					field_102 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
 				}
 
-				if (!field_77 && !field_78)
-				{
+				if (!field_77 && !field_78) {
 					field_105 = field_41;
 				}
-				else
-				{
+				else {
 					field_105 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
 				}
 
-				if (!field_80 && !field_78)
-				{
+				if (!field_80 && !field_78) {
 					field_42 = field_41;
 				}
-				else
-				{
+				else {
 					field_42 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
 				}
 
@@ -384,55 +348,44 @@ public class ShapeBoxCustom extends Shape
 					arg.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Y)) {
+			if (field_55 <= 0) {
 				var12 = field_98;
 				var11 = field_98;
 				var10 = field_98;
 				var9 = field_98;
 			}
-			else
-			{
+			else {
 				++posY;
 				field_44 = arg.method_1604(tileView, posX - 1, posY, posZ);
 				field_48 = arg.method_1604(tileView, posX + 1, posY, posZ);
 				field_46 = arg.method_1604(tileView, posX, posY, posZ - 1);
 				field_49 = arg.method_1604(tileView, posX, posY, posZ + 1);
-				if (!field_69 && !field_71)
-				{
+				if (!field_69 && !field_71) {
 					field_43 = field_44;
 				}
-				else
-				{
+				else {
 					field_43 = arg.method_1604(tileView, posX - 1, posY, posZ - 1);
 				}
 
-				if (!field_69 && !field_70)
-				{
+				if (!field_69 && !field_70) {
 					field_47 = field_48;
 				}
-				else
-				{
+				else {
 					field_47 = arg.method_1604(tileView, posX + 1, posY, posZ - 1);
 				}
 
-				if (!field_72 && !field_71)
-				{
+				if (!field_72 && !field_71) {
 					field_45 = field_44;
 				}
-				else
-				{
+				else {
 					field_45 = arg.method_1604(tileView, posX - 1, posY, posZ + 1);
 				}
 
-				if (!field_72 && !field_70)
-				{
+				if (!field_72 && !field_70) {
 					field_50 = field_48;
 				}
-				else
-				{
+				else {
 					field_50 = arg.method_1604(tileView, posX + 1, posY, posZ + 1);
 				}
 
@@ -462,55 +415,44 @@ public class ShapeBoxCustom extends Shape
 					arg.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_Z)) {
+			if (field_55 <= 0) {
 				var12 = field_96;
 				var11 = field_96;
 				var10 = field_96;
 				var9 = field_96;
 			}
-			else
-			{
+			else {
 				--posZ;
 				field_51 = arg.method_1604(tileView, posX - 1, posY, posZ);
 				field_103 = arg.method_1604(tileView, posX, posY - 1, posZ);
 				field_46 = arg.method_1604(tileView, posX, posY + 1, posZ);
 				field_52 = arg.method_1604(tileView, posX + 1, posY, posZ);
-				if (!field_73 && !field_77)
-				{
+				if (!field_73 && !field_77) {
 					field_100 = field_51;
 				}
-				else
-				{
+				else {
 					field_100 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
 				}
 
-				if (!field_73 && !field_69)
-				{
+				if (!field_73 && !field_69) {
 					field_43 = field_51;
 				}
-				else
-				{
+				else {
 					field_43 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
 				}
 
-				if (!field_76 && !field_77)
-				{
+				if (!field_76 && !field_77) {
 					field_105 = field_52;
 				}
-				else
-				{
+				else {
 					field_105 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
 				}
 
-				if (!field_76 && !field_69)
-				{
+				if (!field_76 && !field_69) {
 					field_47 = field_52;
 				}
-				else
-				{
+				else {
 					field_47 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
 				}
 
@@ -538,8 +480,7 @@ public class ShapeBoxCustom extends Shape
 			field_68 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 2);
 			this.method_61(arg, (double) posX, (double) posY, (double) posZ, var19);
-			if (field_67 && var19 == 3 && field_83 < 0)
-			{
+			if (field_67 && var19 == 3 && field_83 < 0) {
 				field_56 *= red;
 				field_57 *= red;
 				field_58 *= red;
@@ -556,55 +497,44 @@ public class ShapeBoxCustom extends Shape
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_Z)) {
+			if (field_55 <= 0) {
 				var12 = field_99;
 				var11 = field_99;
 				var10 = field_99;
 				var9 = field_99;
 			}
-			else
-			{
+			else {
 				++posZ;
 				field_53 = arg.method_1604(tileView, posX - 1, posY, posZ);
 				field_54 = arg.method_1604(tileView, posX + 1, posY, posZ);
 				field_104 = arg.method_1604(tileView, posX, posY - 1, posZ);
 				field_49 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_75 && !field_80)
-				{
+				if (!field_75 && !field_80) {
 					field_102 = field_53;
 				}
-				else
-				{
+				else {
 					field_102 = arg.method_1604(tileView, posX - 1, posY - 1, posZ);
 				}
 
-				if (!field_75 && !field_72)
-				{
+				if (!field_75 && !field_72) {
 					field_45 = field_53;
 				}
-				else
-				{
+				else {
 					field_45 = arg.method_1604(tileView, posX - 1, posY + 1, posZ);
 				}
 
-				if (!field_74 && !field_80)
-				{
+				if (!field_74 && !field_80) {
 					field_42 = field_54;
 				}
-				else
-				{
+				else {
 					field_42 = arg.method_1604(tileView, posX + 1, posY - 1, posZ);
 				}
 
-				if (!field_74 && !field_72)
-				{
+				if (!field_74 && !field_72) {
 					field_50 = field_54;
 				}
-				else
-				{
+				else {
 					field_50 = arg.method_1604(tileView, posX + 1, posY + 1, posZ);
 				}
 
@@ -633,8 +563,7 @@ public class ShapeBoxCustom extends Shape
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 3);
 			this.method_65(arg, (double) posX, (double) posY, (double) posZ,
 					arg.method_1626(tileView, posX, posY, posZ, 3));
-			if (field_67 && var19 == 3 && field_83 < 0)
-			{
+			if (field_67 && var19 == 3 && field_83 < 0) {
 				field_56 *= red;
 				field_57 *= red;
 				field_58 *= red;
@@ -651,55 +580,44 @@ public class ShapeBoxCustom extends Shape
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_NEG_X)) {
+			if (field_55 <= 0) {
 				var12 = field_94;
 				var11 = field_94;
 				var10 = field_94;
 				var9 = field_94;
 			}
-			else
-			{
+			else {
 				--posX;
 				field_101 = arg.method_1604(tileView, posX, posY - 1, posZ);
 				field_51 = arg.method_1604(tileView, posX, posY, posZ - 1);
 				field_53 = arg.method_1604(tileView, posX, posY, posZ + 1);
 				field_44 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_73 && !field_79)
-				{
+				if (!field_73 && !field_79) {
 					field_100 = field_51;
 				}
-				else
-				{
+				else {
 					field_100 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
 				}
 
-				if (!field_75 && !field_79)
-				{
+				if (!field_75 && !field_79) {
 					field_102 = field_53;
 				}
-				else
-				{
+				else {
 					field_102 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
 				}
 
-				if (!field_73 && !field_71)
-				{
+				if (!field_73 && !field_71) {
 					field_43 = field_51;
 				}
-				else
-				{
+				else {
 					field_43 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
 				}
 
-				if (!field_75 && !field_71)
-				{
+				if (!field_75 && !field_71) {
 					field_45 = field_53;
 				}
-				else
-				{
+				else {
 					field_45 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
 				}
 
@@ -727,8 +645,7 @@ public class ShapeBoxCustom extends Shape
 			field_68 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 4);
 			this.method_67(arg, (double) posX, (double) posY, (double) posZ, var19);
-			if (field_67 && var19 == 3 && field_83 < 0)
-			{
+			if (field_67 && var19 == 3 && field_83 < 0) {
 				field_56 *= red;
 				field_57 *= red;
 				field_58 *= red;
@@ -745,55 +662,44 @@ public class ShapeBoxCustom extends Shape
 			}
 		}
 
-		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X))
-		{
-			if (field_55 <= 0)
-			{
+		if (field_85 || shouldRenderFace(CoreLib.FACE_POS_X)) {
+			if (field_55 <= 0) {
 				var12 = field_97;
 				var11 = field_97;
 				var10 = field_97;
 				var9 = field_97;
 			}
-			else
-			{
+			else {
 				++posX;
 				field_41 = arg.method_1604(tileView, posX, posY - 1, posZ);
 				field_52 = arg.method_1604(tileView, posX, posY, posZ - 1);
 				field_54 = arg.method_1604(tileView, posX, posY, posZ + 1);
 				field_48 = arg.method_1604(tileView, posX, posY + 1, posZ);
-				if (!field_78 && !field_76)
-				{
+				if (!field_78 && !field_76) {
 					field_105 = field_52;
 				}
-				else
-				{
+				else {
 					field_105 = arg.method_1604(tileView, posX, posY - 1, posZ - 1);
 				}
 
-				if (!field_78 && !field_74)
-				{
+				if (!field_78 && !field_74) {
 					field_42 = field_54;
 				}
-				else
-				{
+				else {
 					field_42 = arg.method_1604(tileView, posX, posY - 1, posZ + 1);
 				}
 
-				if (!field_70 && !field_76)
-				{
+				if (!field_70 && !field_76) {
 					field_47 = field_52;
 				}
-				else
-				{
+				else {
 					field_47 = arg.method_1604(tileView, posX, posY + 1, posZ - 1);
 				}
 
-				if (!field_70 && !field_74)
-				{
+				if (!field_70 && !field_74) {
 					field_50 = field_54;
 				}
-				else
-				{
+				else {
 					field_50 = arg.method_1604(tileView, posX, posY + 1, posZ + 1);
 				}
 
@@ -821,8 +727,7 @@ public class ShapeBoxCustom extends Shape
 			field_68 *= var12;
 			int var19 = arg.method_1626(tileView, posX, posY, posZ, 5);
 			this.method_69(arg, (double) posX, (double) posY, (double) posZ, var19);
-			if (field_67 && var19 == 3 && field_83 < 0)
-			{
+			if (field_67 && var19 == 3 && field_83 < 0) {
 				field_56 *= red;
 				field_57 *= red;
 				field_58 *= red;
@@ -842,11 +747,9 @@ public class ShapeBoxCustom extends Shape
 		field_92 = false;
 	}
 
-	public void method_69(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_69(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -858,21 +761,18 @@ public class ShapeBoxCustom extends Shape
 		double var14 = var10 + POS_MAX.getZ() * dx;
 		double var16 = (var11 + dy) - POS_MAX.getY() * dy;
 		double var18 = (var11 + dy) - POS_MIN.getY() * dy;
-		if (field_84)
-		{
+		if (field_84) {
 			double var20 = var12;
 			var12 = var14;
 			var14 = var20;
 		}
 
-		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D)
-		{
+		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
 			var12 = var10;
 			var14 = var10 + dx;
 		}
 
-		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D)
-		{
+		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D) {
 			var16 = var11;
 			var18 = var11 + dy;
 		}
@@ -881,8 +781,7 @@ public class ShapeBoxCustom extends Shape
 		double var22 = var12;
 		double var24 = var16;
 		double var26 = var18;
-		if (field_88 == 2)
-		{
+		if (field_88 == 2) {
 			var12 = var10 + POS_MIN.getY() * dx;
 			var16 = (var11 + dy) - POS_MIN.getZ() * dy;
 			var14 = var10 + POS_MAX.getY() * dx;
@@ -894,8 +793,7 @@ public class ShapeBoxCustom extends Shape
 			var16 = var18;
 			var18 = var16;
 		}
-		else if (field_88 == 1)
-		{
+		else if (field_88 == 1) {
 			var12 = (var10 + dx) - POS_MAX.getY() * dx;
 			var16 = var11 + POS_MAX.getZ() * dy;
 			var14 = (var10 + dx) - POS_MIN.getY() * dx;
@@ -907,8 +805,7 @@ public class ShapeBoxCustom extends Shape
 			var24 = var18;
 			var26 = var16;
 		}
-		else if (field_88 == 3)
-		{
+		else if (field_88 == 3) {
 			var12 = (var10 + dx) - POS_MIN.getZ() * dx;
 			var14 = (var10 + dx) - POS_MAX.getZ() * dx;
 			var16 = var11 + POS_MAX.getY() * dy;
@@ -924,8 +821,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MAX.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var28, var30, var36, var22, var26);
 			var9.colour(field_57, field_61, field_65);
@@ -935,8 +831,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var28, var32, var36, var12, var16);
 		}
-		else
-		{
+		else {
 			var9.vertex(var28, var30, var36, var22, var26);
 			var9.vertex(var28, var30, var34, var14, var18);
 			var9.vertex(var28, var32, var34, var42, var24);
@@ -944,11 +839,9 @@ public class ShapeBoxCustom extends Shape
 		}
 	}
 
-	public void method_46(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_46(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -960,14 +853,12 @@ public class ShapeBoxCustom extends Shape
 		double var14 = var10 + POS_MAX.getX() * dx;
 		double var16 = var11 + POS_MIN.getZ() * dy;
 		double var18 = var11 + POS_MAX.getZ() * dy;
-		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D)
-		{
+		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
 			var12 = var10;
 			var14 = var10 + dx;
 		}
 
-		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D)
-		{
+		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
 			var16 = var11;
 			var18 = var11 + dy;
 		}
@@ -976,8 +867,7 @@ public class ShapeBoxCustom extends Shape
 		double var22 = var12;
 		double var24 = var16;
 		double var26 = var18;
-		if (field_91 == 2)
-		{
+		if (field_91 == 2) {
 			var12 = var10 + POS_MIN.getZ() * dx;
 			var16 = (var11 + dy) - POS_MAX.getX() * dy;
 			var14 = var10 + POS_MAX.getZ() * dx;
@@ -989,8 +879,7 @@ public class ShapeBoxCustom extends Shape
 			var16 = var18;
 			var18 = var16;
 		}
-		else if (field_91 == 1)
-		{
+		else if (field_91 == 1) {
 			var12 = (var10 + dx) - POS_MAX.getZ() * dx;
 			var16 = var11 + POS_MIN.getX() * dy;
 			var14 = (var10 + dx) - POS_MIN.getZ() * dx;
@@ -1002,8 +891,7 @@ public class ShapeBoxCustom extends Shape
 			var24 = var18;
 			var26 = var16;
 		}
-		else if (field_91 == 3)
-		{
+		else if (field_91 == 3) {
 			var12 = (var10 + dx) - POS_MIN.getX() * dx;
 			var14 = (var10 + dx) - POS_MAX.getX() * dx;
 			var16 = (var11 + dy) - POS_MIN.getZ() * dy;
@@ -1019,8 +907,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MIN.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var28, var32, var36, var22, var26);
 			var9.colour(field_57, field_61, field_65);
@@ -1030,8 +917,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var30, var32, var36, var14, var18);
 		}
-		else
-		{
+		else {
 			var9.vertex(var28, var32, var36, var22, var26);
 			var9.vertex(var28, var32, var34, var12, var16);
 			var9.vertex(var30, var32, var34, var20, var24);
@@ -1039,11 +925,9 @@ public class ShapeBoxCustom extends Shape
 		}
 	}
 
-	public void method_55(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_55(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -1055,14 +939,12 @@ public class ShapeBoxCustom extends Shape
 		double var14 = var10 + POS_MAX.getX() * dx;
 		double var16 = var11 + POS_MIN.getZ() * dy;
 		double var18 = var11 + POS_MAX.getZ() * dy;
-		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D)
-		{
+		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
 			var12 = var10;
 			var14 = var10 + dx;
 		}
 
-		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D)
-		{
+		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
 			var16 = var11;
 			var18 = var11 + dy;
 		}
@@ -1071,8 +953,7 @@ public class ShapeBoxCustom extends Shape
 		double var22 = var12;
 		double var24 = var16;
 		double var26 = var18;
-		if (field_90 == 1)
-		{
+		if (field_90 == 1) {
 			var12 = var10 + POS_MIN.getZ() * dx;
 			var16 = (var11 + dy) - POS_MAX.getX() * dy;
 			var14 = var10 + POS_MAX.getZ() * dx;
@@ -1084,8 +965,7 @@ public class ShapeBoxCustom extends Shape
 			var16 = var18;
 			var18 = var16;
 		}
-		else if (field_90 == 2)
-		{
+		else if (field_90 == 2) {
 			var12 = (var10 + dx) - POS_MAX.getZ() * dx;
 			var16 = var11 + POS_MIN.getX() * dy;
 			var14 = (var10 + dx) - POS_MIN.getZ() * dx;
@@ -1097,8 +977,7 @@ public class ShapeBoxCustom extends Shape
 			var24 = var18;
 			var26 = var16;
 		}
-		else if (field_90 == 3)
-		{
+		else if (field_90 == 3) {
 			var12 = (var10 + dx) - POS_MIN.getX() * dx;
 			var14 = (var10 + dx) - POS_MAX.getX() * dx;
 			var16 = (var11 + dy) - POS_MIN.getZ() * dy;
@@ -1114,8 +993,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MAX.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var30, var32, var36, var14, var18);
 			var9.colour(field_57, field_61, field_65);
@@ -1125,8 +1003,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var28, var32, var36, var22, var26);
 		}
-		else
-		{
+		else {
 			var9.vertex(var30, var32, var36, var14, var18);
 			var9.vertex(var30, var32, var34, var20, var24);
 			var9.vertex(var28, var32, var34, var12, var16);
@@ -1134,11 +1011,9 @@ public class ShapeBoxCustom extends Shape
 		}
 	}
 
-	public void method_61(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_61(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -1150,21 +1025,18 @@ public class ShapeBoxCustom extends Shape
 		double var14 = var10 + POS_MAX.getX() * dx;
 		double var16 = (var11 + dy) - POS_MAX.getY() * dy;
 		double var18 = (var11 + dy) - POS_MIN.getY() * dy;
-		if (field_84)
-		{
+		if (field_84) {
 			double var20 = var12;
 			var12 = var14;
 			var14 = var20;
 		}
 
-		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D)
-		{
+		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
 			var12 = var10;
 			var14 = var10 + dx;
 		}
 
-		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D)
-		{
+		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D) {
 			var16 = var11;
 			var18 = var11 + dy;
 		}
@@ -1173,8 +1045,7 @@ public class ShapeBoxCustom extends Shape
 		double var22 = var12;
 		double var24 = var16;
 		double var26 = var18;
-		if (field_86 == 2)
-		{
+		if (field_86 == 2) {
 			var12 = var10 + POS_MIN.getY() * dx;
 			var16 = (var11 + dy) - POS_MIN.getX() * dy;
 			var14 = var10 + POS_MAX.getY() * dx;
@@ -1186,8 +1057,7 @@ public class ShapeBoxCustom extends Shape
 			var16 = var18;
 			var18 = var16;
 		}
-		else if (field_86 == 1)
-		{
+		else if (field_86 == 1) {
 			var12 = (var10 + dx) - POS_MAX.getY() * dx;
 			var16 = var11 + POS_MAX.getX() * dy;
 			var14 = (var10 + dx) - POS_MIN.getY() * dx;
@@ -1199,8 +1069,7 @@ public class ShapeBoxCustom extends Shape
 			var24 = var18;
 			var26 = var16;
 		}
-		else if (field_86 == 3)
-		{
+		else if (field_86 == 3) {
 			var12 = (var10 + dx) - POS_MIN.getX() * dx;
 			var14 = (var10 + dx) - POS_MAX.getX() * dx;
 			var16 = var11 + POS_MAX.getY() * dy;
@@ -1216,8 +1085,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MIN.getY();
 		double var34 = d1 + POS_MAX.getY();
 		double var36 = d2 + POS_MIN.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var28, var34, var36, var42, var24);
 			var9.colour(field_57, field_61, field_65);
@@ -1227,8 +1095,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var28, var32, var36, var14, var18);
 		}
-		else
-		{
+		else {
 			var9.vertex(var28, var34, var36, var42, var24);
 			var9.vertex(var30, var34, var36, var12, var16);
 			var9.vertex(var30, var32, var36, var22, var26);
@@ -1236,11 +1103,9 @@ public class ShapeBoxCustom extends Shape
 		}
 	}
 
-	public void method_65(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_65(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -1252,21 +1117,18 @@ public class ShapeBoxCustom extends Shape
 		double var14 = var10 + POS_MAX.getX() * dx;
 		double var16 = (var11 + dy) - POS_MAX.getY() * dy;
 		double var18 = (var11 + dy) - POS_MIN.getY() * dy;
-		if (field_84)
-		{
+		if (field_84) {
 			double var20 = var12;
 			var12 = var14;
 			var14 = var20;
 		}
 
-		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D)
-		{
+		if (POS_MIN.getX() < 0.0D || POS_MAX.getX() > 1.0D) {
 			var12 = var10;
 			var14 = var10 + dx;
 		}
 
-		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D)
-		{
+		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D) {
 			var16 = var11;
 			var18 = var11 + dy;
 		}
@@ -1275,8 +1137,7 @@ public class ShapeBoxCustom extends Shape
 		double var22 = var12;
 		double var24 = var16;
 		double var26 = var18;
-		if (field_87 == 1)
-		{
+		if (field_87 == 1) {
 			var12 = ((double) var10 + POS_MIN.getY() * 16.0D) / size;
 			var18 = ((double) (var11 + 16) - POS_MIN.getX() * 16.0D) / size;
 			var14 = ((double) var10 + POS_MAX.getY() * 16.0D) / size;
@@ -1288,8 +1149,7 @@ public class ShapeBoxCustom extends Shape
 			var16 = var18;
 			var18 = var16;
 		}
-		else if (field_87 == 2)
-		{
+		else if (field_87 == 2) {
 			var12 = ((double) (var10 + 16) - POS_MAX.getY() * 16.0D) / size;
 			var16 = ((double) var11 + POS_MIN.getX() * 16.0D) / size;
 			var14 = ((double) (var10 + 16) - POS_MIN.getY() * 16.0D) / size;
@@ -1301,8 +1161,7 @@ public class ShapeBoxCustom extends Shape
 			var24 = var18;
 			var26 = var16;
 		}
-		else if (field_87 == 3)
-		{
+		else if (field_87 == 3) {
 			var12 = ((double) (var10 + 16) - POS_MIN.getX() * 16.0D) / size;
 			var14 = ((double) (var10 + 16) - POS_MAX.getX() * 16.0D - 0.01D) / size;
 			var16 = ((double) var11 + POS_MAX.getY() * 16.0D) / size;
@@ -1318,8 +1177,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MIN.getY();
 		double var34 = d1 + POS_MAX.getY();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var28, var34, var36, var12, var16);
 			var9.colour(field_57, field_61, field_65);
@@ -1329,8 +1187,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var30, var34, var36, var42, var24);
 		}
-		else
-		{
+		else {
 			var9.vertex(var28, var34, var36, var12, var16);
 			var9.vertex(var28, var32, var36, var22, var26);
 			var9.vertex(var30, var32, var36, var14, var18);
@@ -1338,11 +1195,9 @@ public class ShapeBoxCustom extends Shape
 		}
 	}
 
-	public void method_67(Tile arg, double d, double d1, double d2, int i)
-	{
+	public void method_67(Tile arg, double d, double d1, double d2, int i) {
 		Tessellator var9 = Tessellator.INSTANCE;
-		if (field_83 >= 0)
-		{
+		if (field_83 >= 0) {
 			i = field_83;
 		}
 
@@ -1354,21 +1209,18 @@ public class ShapeBoxCustom extends Shape
 		double u2 = u + POS_MAX.getZ() * dx;
 		double v1 = (v + dy) - POS_MAX.getY() * dy;
 		double v2 = (v + dy) - POS_MIN.getY() * dy;
-		if (field_84)
-		{
+		if (field_84) {
 			double var20 = u1;
 			u1 = u2;
 			u2 = var20;
 		}
 
-		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D)
-		{
+		if (POS_MIN.getZ() < 0.0D || POS_MAX.getZ() > 1.0D) {
 			u1 = u;
 			u2 = u + dx;
 		}
 
-		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D)
-		{
+		if (POS_MIN.getY() < 0.0D || POS_MAX.getY() > 1.0D) {
 			v1 = v;
 			v2 = v + dy;
 		}
@@ -1377,8 +1229,7 @@ public class ShapeBoxCustom extends Shape
 		double u4 = u1;
 		double v3 = v1;
 		double v4 = v2;
-		if (field_89 == 1)
-		{
+		if (field_89 == 1) {
 			u1 = u + POS_MIN.getY() * dx;
 			v1 = (v + dy) - POS_MAX.getZ() * dy;
 			u2 = u + POS_MAX.getY() * dx;
@@ -1390,8 +1241,7 @@ public class ShapeBoxCustom extends Shape
 			v1 = v2;
 			v2 = v1;
 		}
-		else if (field_89 == 2)
-		{
+		else if (field_89 == 2) {
 			u1 = (u + dx) - POS_MAX.getY() * dx;
 			v1 = v + POS_MIN.getZ() * dy;
 			u2 = (u + dx) - POS_MIN.getY() * dx;
@@ -1403,8 +1253,7 @@ public class ShapeBoxCustom extends Shape
 			v3 = v2;
 			v4 = v1;
 		}
-		else if (field_89 == 3)
-		{
+		else if (field_89 == 3) {
 			u1 = (u + 16) - POS_MIN.getZ() * dx;
 			u2 = (u + 16) - POS_MAX.getZ() * dx;
 			v1 = v + POS_MAX.getY() * dy;
@@ -1420,8 +1269,7 @@ public class ShapeBoxCustom extends Shape
 		double var32 = d1 + POS_MAX.getY();
 		double var34 = d2 + POS_MIN.getZ();
 		double var36 = d2 + POS_MAX.getZ();
-		if (field_92)
-		{
+		if (field_92) {
 			var9.colour(field_56, field_60, field_64);
 			var9.vertex(var28, var32, var36, u3, v3);
 			var9.colour(field_57, field_61, field_65);
@@ -1431,8 +1279,7 @@ public class ShapeBoxCustom extends Shape
 			var9.colour(field_59, field_63, field_68);
 			var9.vertex(var28, var30, var36, u2, v2);
 		}
-		else
-		{
+		else {
 			var9.vertex(var28, var32, var36, u3, v3);
 			var9.vertex(var28, var32, var34, u1, v1);
 			var9.vertex(var28, var30, var34, u4, v4);
