@@ -1,4 +1,4 @@
-package paulevs.corelib.mixin.client;
+package paulevs.corelib.mixin;
 
 import java.util.Random;
 

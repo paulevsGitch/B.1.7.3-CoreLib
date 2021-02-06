@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "paulevs.corelib.mixin.client",
+	"package": "paulevs.corelib.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"client": [
 		"DrawableHelperMixin",
