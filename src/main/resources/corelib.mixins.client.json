@@ -1,17 +1,17 @@
 {
-  "required": true,
-  "package": "paulevs.corelib.mixin.client",
-  "compatibilityLevel": "JAVA_8",
-  "client": [
-	"TileRendererMixin",
-	"MinecraftMixin",
-	"TextureManagerMixin",
-	"ItemRendererMixin",
-	"Class556Mixin",
-	"DrawableHelperMixin",
-	"TileParticleMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"package": "paulevs.corelib.mixin.client",
+	"compatibilityLevel": "JAVA_8",
+	"client": [
+		"DrawableHelperMixin",
+		"TextureManagerMixin",
+		"ItemRendererMixin",
+		"TileParticleMixin",
+		"TileRendererMixin",
+		"MinecraftMixin",
+		"Class556Mixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }
