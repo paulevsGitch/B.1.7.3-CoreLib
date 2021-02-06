@@ -75,7 +75,7 @@ public class ItemRendererMixin {
 
 			GL11.glRotatef(angle, 0.0F, 1.0F, 0.0F);
 			model.bindAtlas();
-			float scale = 0.5F;
+			float scale = 0.25F;
 
 			GL11.glScalef(scale, scale, scale);
 
