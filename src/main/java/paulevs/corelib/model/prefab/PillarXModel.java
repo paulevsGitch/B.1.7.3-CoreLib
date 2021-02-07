@@ -5,11 +5,10 @@ import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.texture.UVPair;
 
-public class ModelGrasslike extends Model {
-	public ModelGrasslike(String textureUp, String textureSide, String textureDown) {
-		this.addTexture("textureDown", textureDown);
+public class PillarXModel extends Model {
+	public PillarXModel(String textureTop, String textureSide) {
 		this.addTexture("textureSide", textureSide);
-		this.addTexture("textureUp", textureUp);
+		this.addTexture("textureTop", textureTop);
 	}
 
 	@Override
@@ -23,23 +22,17 @@ public class ModelGrasslike extends Model {
 	}
 	
 	private void render() {
-		this.setTexture("textureUp");
+		this.setTexture("textureSide");
 		Shape.setFaceRendering(TileFacing.NEG_X, false);
 		Shape.setFaceRendering(TileFacing.POS_X, false);
-		Shape.setFaceRendering(TileFacing.NEG_Z, false);
-		Shape.setFaceRendering(TileFacing.POS_Z, false);
-		Shape.setFaceRendering(TileFacing.NEG_Y, false);
 		FULL_CUBE.render();
-		this.setTexture("textureDown");
-		Shape.setFaceRendering(TileFacing.POS_Y, false);
-		Shape.setFaceRendering(TileFacing.NEG_Y, true);
-		FULL_CUBE.render();
-		this.setTexture("textureSide");
+		this.setTexture("textureTop");
 		Shape.setFaceRendering(TileFacing.NEG_X, true);
 		Shape.setFaceRendering(TileFacing.POS_X, true);
-		Shape.setFaceRendering(TileFacing.NEG_Z, true);
-		Shape.setFaceRendering(TileFacing.POS_Z, true);
+		Shape.setFaceRendering(TileFacing.POS_Y, false);
 		Shape.setFaceRendering(TileFacing.NEG_Y, false);
+		Shape.setFaceRendering(TileFacing.POS_Z, false);
+		Shape.setFaceRendering(TileFacing.NEG_Z, false);
 		FULL_CUBE.render();
 	}
 	

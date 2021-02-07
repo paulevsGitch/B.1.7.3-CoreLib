@@ -4,8 +4,8 @@ import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.texture.UVPair;
 
-public class ModelFullBlock extends Model {
-	public ModelFullBlock(String texture) {
+public class FullBlockModel extends Model {
+	public FullBlockModel(String texture) {
 		this.addTexture("texture", texture);
 	}
 
