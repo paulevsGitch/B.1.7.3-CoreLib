@@ -76,7 +76,7 @@ public class ItemRendererMixin {
 			float scale = 0.25F;
 
 			GL11.glScalef(scale, scale, scale);
-
+			
 			for (int var15 = 0; var15 < count; ++var15) {
 				GL11.glPushMatrix();
 				if (var15 > 0) {
@@ -117,6 +117,9 @@ public class ItemRendererMixin {
 		}
 	}
 
+	/**
+	 * Render item in the inventory
+	 */
 	@Inject(method = "method_1486", at = @At("HEAD"), cancellable = true)
 	private void renderModel(TextRenderer textRenderer, TextureManager textureManager, int id, int meta, int textureID, int x, int y, CallbackInfo info) {
 		ItemType item = ItemType.byId[id];
@@ -150,9 +153,11 @@ public class ItemRendererMixin {
 			}
 
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glColor4f(1, 0, 0, 1F);
 
 			this.field_1708.field_81 = this.field_1707;
-
+			
+			Shape.setColorWhite();
 			model.bindAtlas();
 			Tessellator.INSTANCE.start();
 			Tessellator.INSTANCE.method_1697(0.0F, -1.0F, 0.0F);

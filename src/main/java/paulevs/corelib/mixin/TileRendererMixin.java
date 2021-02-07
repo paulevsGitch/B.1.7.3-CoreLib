@@ -64,7 +64,7 @@ public class TileRendererMixin {
 	}
 
 	/**
-	 * Main method to render block item in the world
+	 * Main method to render block item in player hand
 	 */
 	@Inject(method = "method_48", at = @At("HEAD"), cancellable = true)
 	private void renderItem(Tile tile, int meta, float f, CallbackInfo info) {
