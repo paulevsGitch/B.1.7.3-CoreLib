@@ -121,7 +121,7 @@ public class ItemRendererMixin {
 	private void renderModel(TextRenderer textRenderer, TextureManager textureManager, int id, int meta, int textureID, int x, int y, CallbackInfo info) {
 		ItemType item = ItemType.byId[id];
 		Model model = ModelRegistry.getItemModel(item, meta);
-		if (model != null && model.hasItem()) {
+		if (model != null) {
 			CoreLib.ITEM_VIEW.setTile(0);
 			CoreLib.ITEM_VIEW.setMeta(meta);
 			Shape.setTileView(CoreLib.ITEM_VIEW);

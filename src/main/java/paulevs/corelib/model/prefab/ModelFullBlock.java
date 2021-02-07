@@ -2,17 +2,11 @@ package paulevs.corelib.model.prefab;
 
 import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
-import paulevs.corelib.model.shape.ShapeBoxCustom;
 import paulevs.corelib.texture.UVPair;
 
 public class ModelFullBlock extends Model {
-	private static final Shape BOX = new ShapeBoxCustom();
-	private final String texture;
-	private UVPair pair;
-
-	public ModelFullBlock(String texture, String path) {
-		this.addTexture(texture, path);
-		this.texture = texture;
+	public ModelFullBlock(String texture) {
+		this.addTexture("texture", texture);
 	}
 
 	@Override
@@ -26,9 +20,8 @@ public class ModelFullBlock extends Model {
 	}
 	
 	private void render() {
-		this.setTexture(texture);
 		Shape.setUV(getBlockUV());
-		BOX.render();
+		FULL_CUBE.render();
 	}
 	
 	@Override
@@ -42,9 +35,6 @@ public class ModelFullBlock extends Model {
 	}
 
 	private UVPair getBlockUV() {
-		if (pair == null) {
-			pair = this.getUV(texture);
-		}
-		return pair;
+		return this.getUV("texture");
 	}
 }

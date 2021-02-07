@@ -8,11 +8,13 @@ import com.google.common.collect.Maps;
 
 import paulevs.corelib.math.LocationRandom;
 import paulevs.corelib.model.shape.Shape;
+import paulevs.corelib.model.shape.ShapeBoxCustom;
 import paulevs.corelib.texture.TextureAtlas;
 import paulevs.corelib.texture.UVPair;
 
 public abstract class Model {
 	protected static final LocationRandom RANDOM = new LocationRandom();
+	protected static final Shape FULL_CUBE = new ShapeBoxCustom();
 	private TextureAtlas atlas;
 
 	private Map<String, TextureInfo> textures = Maps.newHashMap();

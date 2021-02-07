@@ -29,7 +29,7 @@ public abstract class Shape {
 	protected static Tile tile = Tile.STONE;
 	protected static UVPair uv = new UVPair();
 	protected static int meta = 0;
-	protected static int destruction;
+	protected static int destruction = -1;
 
 	public static void setPos(int x, int y, int z) {
 		POS.set(x, y, z);
@@ -134,15 +134,15 @@ public abstract class Shape {
 		}
 	}
 
-	public static void setFaceRendering(int index, boolean renderFace) {
-		RENDER_FACE[index] = renderFace;
+	public static void setFaceRendering(TileFacing facing, boolean renderFace) {
+		RENDER_FACE[facing.getID()] = renderFace;
 	}
 
 	public static void drawAll() {
 		Arrays.fill(RENDER_FACE, true);
 	}
 
-	protected static boolean shouldRenderFace(TileFacing facing) {
+	protected boolean shouldRenderFace(TileFacing facing) {
 		int index = facing.getID();
 		return RENDER_WORLD[index] && RENDER_FACE[index];
 	}
