@@ -7,7 +7,7 @@ import net.minecraft.client.render.TileRenderer;
 import net.minecraft.level.TileView;
 import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
-import paulevs.corelib.LocationRandom;
+import paulevs.corelib.math.LocationRandom;
 import paulevs.corelib.math.Vec3F;
 import paulevs.corelib.math.Vec3I;
 import paulevs.corelib.texture.UVPair;

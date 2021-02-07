@@ -20,9 +20,9 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemType;
 import net.minecraft.util.maths.MathsHelper;
 import paulevs.corelib.CoreLib;
-import paulevs.corelib.api.ModelRegistry;
 import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
+import paulevs.corelib.registry.ModelRegistry;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {

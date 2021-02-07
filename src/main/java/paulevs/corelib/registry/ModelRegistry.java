@@ -1,4 +1,4 @@
-package paulevs.corelib.api;
+package paulevs.corelib.registry;
 
 import java.util.List;
 import java.util.Map;

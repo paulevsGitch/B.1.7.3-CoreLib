@@ -5,6 +5,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.sortme.GameRenderer;
 import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
+import paulevs.corelib.math.TileFacing;
 import paulevs.corelib.math.Vec3F;
 
 public class ShapeBoxCustom extends Shape {
@@ -155,14 +156,14 @@ public class ShapeBoxCustom extends Shape {
 		float colorB = var13 * blue;
 
 		float centralLight = tile.method_1604(tileView, posX, posY, posZ);
-		if (shouldRenderFace(CoreLib.FACE_NEG_Y)) {
+		if (shouldRenderFace(TileFacing.NEG_Y)) {
 			float var27 = tile.method_1604(tileView, posX, posY - 1, posZ);
 			tesselator.colour(var17 * var27, var20 * var27, var23 * var27);
 			this.method_46(tile, (double) posX, (double) posY, (double) posZ,
 					tile.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_Y)) {
+		if (shouldRenderFace(TileFacing.POS_Y)) {
 			float var27 = tile.method_1604(tileView, posX, posY + 1, posZ);
 			if (POS_MAX.getY() != 1.0D && !tile.material.isLiquid()) {
 				var27 = centralLight;
@@ -173,7 +174,7 @@ public class ShapeBoxCustom extends Shape {
 					tile.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_NEG_Z)) {
+		if (shouldRenderFace(TileFacing.NEG_Z)) {
 			float var27 = tile.method_1604(tileView, posX, posY, posZ - 1);
 			if (POS_MIN.getZ() > 0.0D) {
 				var27 = centralLight;
@@ -188,7 +189,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_Z)) {
+		if (shouldRenderFace(TileFacing.POS_Z)) {
 			float var27 = tile.method_1604(tileView, posX, posY, posZ + 1);
 			if (POS_MAX.getZ() < 1.0D) {
 				var27 = centralLight;
@@ -203,7 +204,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_NEG_X)) {
+		if (shouldRenderFace(TileFacing.NEG_X)) {
 			float light = tile.method_1604(tileView, posX - 1, posY, posZ);
 			if (POS_MIN.getX() > 0.0D) {
 				light = centralLight;
@@ -218,7 +219,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_X)) {
+		if (shouldRenderFace(TileFacing.POS_X)) {
 			float var27 = tile.method_1604(tileView, posX + 1, posY, posZ);
 			if (POS_MAX.getX() < 1.0D) {
 				var27 = centralLight;
@@ -281,7 +282,7 @@ public class ShapeBoxCustom extends Shape {
 			var13 = 0;
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_NEG_Y)) {
+		if (shouldRenderFace(TileFacing.NEG_Y)) {
 			--posY;
 			field_101 = arg.method_1604(tileView, posX - 1, posY, posZ);
 			field_103 = arg.method_1604(tileView, posX, posY, posZ - 1);
@@ -339,7 +340,7 @@ public class ShapeBoxCustom extends Shape {
 			this.method_46(arg, (double) posX, (double) posY, (double) posZ, arg.method_1626(tileView, posX, posY, posZ, 0));
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_Y)) {
+		if (shouldRenderFace(TileFacing.POS_Y)) {
 			++posY;
 			field_44 = arg.method_1604(tileView, posX - 1, posY, posZ);
 			field_48 = arg.method_1604(tileView, posX + 1, posY, posZ);
@@ -397,7 +398,7 @@ public class ShapeBoxCustom extends Shape {
 			this.method_55(arg, (double) posX, (double) posY, (double) posZ, arg.method_1626(tileView, posX, posY, posZ, 1));
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_NEG_Z)) {
+		if (shouldRenderFace(TileFacing.NEG_Z)) {
 			--posZ;
 			field_51 = arg.method_1604(tileView, posX - 1, posY, posZ);
 			field_103 = arg.method_1604(tileView, posX, posY - 1, posZ);
@@ -471,7 +472,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_Z)) {
+		if (shouldRenderFace(TileFacing.POS_Z)) {
 			++posZ;
 			field_53 = arg.method_1604(tileView, posX - 1, posY, posZ);
 			field_54 = arg.method_1604(tileView, posX + 1, posY, posZ);
@@ -546,7 +547,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_NEG_X)) {
+		if (shouldRenderFace(TileFacing.NEG_X)) {
 			--posX;
 			field_101 = arg.method_1604(tileView, posX, posY - 1, posZ);
 			field_51 = arg.method_1604(tileView, posX, posY, posZ - 1);
@@ -620,7 +621,7 @@ public class ShapeBoxCustom extends Shape {
 			}
 		}
 
-		if (shouldRenderFace(CoreLib.FACE_POS_X)) {
+		if (shouldRenderFace(TileFacing.POS_X)) {
 			++posX;
 			field_41 = arg.method_1604(tileView, posX, posY - 1, posZ);
 			field_52 = arg.method_1604(tileView, posX, posY, posZ - 1);

@@ -14,8 +14,8 @@ import net.minecraft.entity.ParticleEntity;
 import net.minecraft.level.Level;
 import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
-import paulevs.corelib.api.ModelRegistry;
 import paulevs.corelib.model.Model;
+import paulevs.corelib.registry.ModelRegistry;
 import paulevs.corelib.texture.UVPair;
 
 @Mixin(TileParticle.class)

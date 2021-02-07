@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.texture.TextureManager;
 import paulevs.corelib.CoreLib;
-import paulevs.corelib.api.ModelRegistry;
 import paulevs.corelib.model.Model;
+import paulevs.corelib.registry.ModelRegistry;
 import paulevs.corelib.texture.TextureAtlas;
 
 @Mixin(Minecraft.class)

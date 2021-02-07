@@ -14,9 +14,9 @@ import net.minecraft.client.render.TileRenderer;
 import net.minecraft.level.TileView;
 import net.minecraft.tile.Tile;
 import paulevs.corelib.CoreLib;
-import paulevs.corelib.api.ModelRegistry;
 import paulevs.corelib.model.Model;
 import paulevs.corelib.model.shape.Shape;
+import paulevs.corelib.registry.ModelRegistry;
 
 @Mixin(TileRenderer.class)
 public class TileRendererMixin {

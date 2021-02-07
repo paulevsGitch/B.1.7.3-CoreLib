@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import paulevs.corelib.LocationRandom;
+import paulevs.corelib.math.LocationRandom;
 import paulevs.corelib.model.shape.Shape;
 import paulevs.corelib.texture.TextureAtlas;
 import paulevs.corelib.texture.UVPair;

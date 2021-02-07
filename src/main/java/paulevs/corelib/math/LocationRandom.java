@@ -1,4 +1,4 @@
-package paulevs.corelib;
+package paulevs.corelib.math;
 
 import java.util.Random;
 

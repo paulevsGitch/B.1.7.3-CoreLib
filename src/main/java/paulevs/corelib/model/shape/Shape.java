@@ -6,9 +6,9 @@ import java.util.Random;
 import net.minecraft.client.render.TileRenderer;
 import net.minecraft.level.TileView;
 import net.minecraft.tile.Tile;
-import paulevs.corelib.CoreLib;
-import paulevs.corelib.LocationRandom;
+import paulevs.corelib.math.LocationRandom;
 import paulevs.corelib.math.MHelper;
+import paulevs.corelib.math.TileFacing;
 import paulevs.corelib.math.Vec3F;
 import paulevs.corelib.math.Vec3I;
 import paulevs.corelib.texture.UVPair;
@@ -124,14 +124,13 @@ public abstract class Shape {
 			Arrays.fill(RENDER_WORLD, true);
 		}
 		else {
-			RENDER_WORLD[CoreLib.FACE_POS_X] = tile.method_1618(tileView, POS.getX() + 1, POS.getY(), POS.getZ(), CoreLib.FACE_POS_X);
-			RENDER_WORLD[CoreLib.FACE_NEG_X] = tile.method_1618(tileView, POS.getX() - 1, POS.getY(), POS.getZ(), CoreLib.FACE_NEG_X);
-
-			RENDER_WORLD[CoreLib.FACE_POS_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() + 1, POS.getZ(), CoreLib.FACE_POS_Y);
-			RENDER_WORLD[CoreLib.FACE_NEG_Y] = tile.method_1618(tileView, POS.getX(), POS.getY() - 1, POS.getZ(), CoreLib.FACE_NEG_Y);
-
-			RENDER_WORLD[CoreLib.FACE_POS_Z] = tile.method_1618(tileView, POS.getX(), POS.getY(), POS.getZ() + 1, CoreLib.FACE_POS_Z);
-			RENDER_WORLD[CoreLib.FACE_NEG_Z] = tile.method_1618(tileView, POS.getX(), POS.getY(), POS.getZ() - 1, CoreLib.FACE_NEG_Z);
+			for (TileFacing facing: TileFacing.getValues()) {
+				int id = facing.getID();
+				int x = facing.offsetX(POS.getX());
+				int y = facing.offsetY(POS.getY());
+				int z = facing.offsetZ(POS.getZ());
+				RENDER_WORLD[id] = tile.method_1618(tileView, x, y, z, id);
+			}
 		}
 	}
 
@@ -143,7 +142,8 @@ public abstract class Shape {
 		Arrays.fill(RENDER_FACE, true);
 	}
 
-	protected static boolean shouldRenderFace(int index) {
+	protected static boolean shouldRenderFace(TileFacing facing) {
+		int index = facing.getID();
 		return RENDER_WORLD[index] && RENDER_FACE[index];
 	}
 
