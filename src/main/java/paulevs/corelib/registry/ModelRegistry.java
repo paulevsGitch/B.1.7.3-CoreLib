@@ -13,27 +13,27 @@ import net.minecraft.tile.Tile;
 import paulevs.corelib.model.Model;
 
 public class ModelRegistry {
-	private static final Map<Id, Map<Integer, Model>> BLOCK_REGISTRY = Maps.newHashMap();
+	private static final Map<Id, Map<Integer, Model>> TILE_REGISTRY = Maps.newHashMap();
 	private static final Map<Id, Map<Integer, Model>> ITEM_REGISTRY = Maps.newHashMap();
 
-	public static void addBlockModel(Tile tile, Model BlockModel) {
+	public static void addTileModel(Tile tile, Model BlockModel) {
 		Map<Integer, Model> models = Maps.newHashMap();
 		models.put(0, BlockModel);
-		BLOCK_REGISTRY.put(Registries.TILE.getId(tile), models);
+		TILE_REGISTRY.put(Registries.TILE.getId(tile), models);
 	}
 
-	public static void addBlockModel(Tile tile, int meta, Model BlockModel) {
+	public static void addTileModel(Tile tile, int meta, Model BlockModel) {
 		Id id = Registries.TILE.getId(tile);
-		Map<Integer, Model> models = BLOCK_REGISTRY.get(id);
+		Map<Integer, Model> models = TILE_REGISTRY.get(id);
 		if (models == null) {
 			models = Maps.newHashMap();
-			BLOCK_REGISTRY.put(id, models);
+			TILE_REGISTRY.put(id, models);
 		}
 		models.put(meta, BlockModel);
 	}
 
-	public static Model getBlockModel(Tile tile, int meta) {
-		Map<Integer, Model> models = BLOCK_REGISTRY.get(Registries.TILE.getId(tile));
+	public static Model getTileModel(Tile tile, int meta) {
+		Map<Integer, Model> models = TILE_REGISTRY.get(Registries.TILE.getId(tile));
 		return models == null ? null : models.get(meta);
 	}
 
@@ -58,9 +58,9 @@ public class ModelRegistry {
 		return models == null ? null : models.get(meta);
 	}
 
-	public static List<Model> getBlockModels() {
+	public static List<Model> getTileModels() {
 		List<Model> list = Lists.newArrayList();
-		BLOCK_REGISTRY.forEach((id, models) -> {
+		TILE_REGISTRY.forEach((id, models) -> {
 			models.forEach((meta, model) -> {
 				list.add(model);
 			});

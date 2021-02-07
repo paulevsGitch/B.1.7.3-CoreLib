@@ -38,7 +38,7 @@ public class TileRendererMixin {
 	@Inject(method = "method_57", at = @At("HEAD"), cancellable = true)
 	private void renderBlock(Tile tile, int x, int y, int z, CallbackInfoReturnable<Boolean> info) {
 		int meta = field_82.getTileMeta(x, y, z);
-		Model model = ModelRegistry.getBlockModel(tile, meta);
+		Model model = ModelRegistry.getTileModel(tile, meta);
 		if (model != null) {
 			Shape.setTileView(field_82);
 			Shape.setPos(x, y, z);
@@ -68,7 +68,7 @@ public class TileRendererMixin {
 	 */
 	@Inject(method = "method_48", at = @At("HEAD"), cancellable = true)
 	private void renderItem(Tile tile, int meta, float f, CallbackInfo info) {
-		Model model = ModelRegistry.getBlockModel(tile, meta);
+		Model model = ModelRegistry.getTileModel(tile, meta);
 		if (model != null && model.hasItem()) {
 			CoreLib.ITEM_VIEW.setTile(tile.id);
 			CoreLib.ITEM_VIEW.setMeta(meta);

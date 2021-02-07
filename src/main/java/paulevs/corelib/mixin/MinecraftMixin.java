@@ -23,7 +23,7 @@ public class MinecraftMixin {
 
 	@Inject(method = "init", at = @At("RETURN"))
 	private void onInit(CallbackInfo info) {
-		Collection<Model> models = ModelRegistry.getBlockModels();
+		Collection<Model> models = ModelRegistry.getTileModels();
 		HashSet<String> textures = new HashSet<String>();
 		models.forEach((model) -> {
 			textures.addAll(model.getTextures());

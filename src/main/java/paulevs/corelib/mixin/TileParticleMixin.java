@@ -42,7 +42,7 @@ public abstract class TileParticleMixin extends ParticleEntity {
 
 	@Inject(method = "method_2002", at = @At("HEAD"), cancellable = true)
 	private void replaceParticles(Tessellator tesselator, float f, float f1, float f2, float f3, float f4, float f5, CallbackInfo info) {
-		Model model = ModelRegistry.getBlockModel(field_2383, field_2384);
+		Model model = ModelRegistry.getTileModel(field_2383, field_2384);
 		if (model != null) {
 			customParticle(model.particleUV(), tesselator, f, f1, f2, f3, f4, f5);
 			info.cancel();
