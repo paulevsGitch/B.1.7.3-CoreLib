@@ -1,6 +1,7 @@
 package paulevs.corelib.texture;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,6 +33,12 @@ public class TextureAtlas {
 	private final float size;
 
 	public TextureAtlas(String primal, HashSet<String> textures) {
+		File dir = new File("D:/BetterEnd/BetterEnd_1.16.3/src/main/resources/assets/betterend/textures/block");
+		for (File f: dir.listFiles()) {
+			if (f.getName().endsWith(".png")) {
+				textures.add(f.getAbsolutePath());
+			}
+		}
 		List<ImageInfo> tiles = loadTiles(textures);
 		tiles.add(new ImageInfo(EMPTY, "notile"));
 
@@ -41,38 +48,16 @@ public class TextureAtlas {
 			return b - a;
 		});
 		if (primal != null) tiles.add(0, new ImageInfo(loadImage(primal), primal));
-
-		List<Rect> rects = new ArrayList<Rect>();
-		rects.add(new Rect(0, 0, 16384, 16384));
-
+		
 		Vec2F[] poses = new Vec2F[tiles.size()];
-		for (int i = 0; i < tiles.size(); i++) {
-			Rect possible = rects.get(0);
-			ImageInfo info = tiles.get(i);
-			for (Rect r : rects) {
-				if (r.canFit(info.img.getWidth(), info.img.getHeight())) {
-					possible = r;
-					break;
-				}
+		int side = 512;
+		while (!buildAtlas(side, poses, tiles)) {
+			side <<= 1;
+			if (side > 16384) {
+				new RuntimeException("Texture atlas " + primal + " reached maximum possible size!");
 			}
-			poses[i] = new Vec2F(possible.x, possible.y);
-			possible.split(info.img.getWidth(), info.img.getHeight(), rects);
-			Collections.sort(rects);
 		}
-
-		int sideX = 0;
-		int sideY = 0;
-		for (int i = 0; i < tiles.size(); i++) {
-			ImageInfo info = tiles.get(i);
-			sideX = Math.max((int) poses[i].getX() + info.img.getWidth(), sideX);
-			sideY = Math.max((int) poses[i].getY() + info.img.getHeight(), sideY);
-		}
-
-		sideX = 1 << (int) Math.ceil(Math.log(sideX) / Math.log(2));
-		sideY = 1 << (int) Math.ceil(Math.log(sideY) / Math.log(2));
-
-		size = Math.max(sideX, sideY);
-
+		size = side;
 		pixelSize = new Vec2F(1F / size, 1F / size);
 
 		BufferedImage atlasIMG = new BufferedImage((int) size, (int) size, BufferedImage.TYPE_INT_ARGB);
@@ -85,13 +70,29 @@ public class TextureAtlas {
 			uvs.put(info.name, new UVPair(start, end));
 		}
 
-		/*
-		 * try { ImageIO.write(atlasIMG, "png", new
-		 * File("D:/MC_BetterNether_1.15.1/Example-Mod-b1.7.3/atlas.png")); }
-		 * catch (IOException e) { e.printStackTrace(); }
-		 */
-
 		atlas = new Texture2D(atlasIMG);
+	}
+	
+	private boolean buildAtlas(int side, Vec2F[] poses, List<ImageInfo> tiles) {
+		List<Rect> rects = new ArrayList<Rect>();
+		rects.add(new Rect(0, 0, side, side));
+		for (int i = 0; i < tiles.size(); i++) {
+			Rect possible = null;
+			ImageInfo info = tiles.get(i);
+			for (Rect r : rects) {
+				if (r.canFit(info.img.getWidth(), info.img.getHeight())) {
+					possible = r;
+					break;
+				}
+			}
+			if (possible == null) {
+				return false;
+			}
+			poses[i] = new Vec2F(possible.x, possible.y);
+			possible.split(info.img.getWidth(), info.img.getHeight(), rects);
+			Collections.sort(rects);
+		}
+		return true;
 	}
 
 	private void drawImage(BufferedImage img, BufferedImage buffer, int x, int y) {
@@ -117,7 +118,7 @@ public class TextureAtlas {
 		List<ImageInfo> result = new ArrayList<ImageInfo>();
 		for (String name : textures) {
 			BufferedImage img = loadImage(name);
-			if (img != null) result.add(new ImageInfo(img, name));
+			if (img != EMPTY) result.add(new ImageInfo(img, name));
 		}
 		return result;
 	}
@@ -131,6 +132,12 @@ public class TextureAtlas {
 					image = ImageIO.read(in);
 					in.close();
 				}
+			}
+			catch (IOException e) {}
+		}
+		if (image == EMPTY) {
+			try {
+				image = ImageIO.read(new File(filename));
 			}
 			catch (IOException e) {}
 		}
