@@ -29,7 +29,6 @@ public class TextureAtlas {
 
 	private final HashMap<String, UVPair> uvs = new HashMap<String, UVPair>();
 	private final Texture2D atlas;
-	private final Vec2F pixelSize;
 	private final float size;
 
 	public TextureAtlas(String primal, HashSet<String> textures) {
@@ -58,15 +57,13 @@ public class TextureAtlas {
 			}
 		}
 		size = side;
-		pixelSize = new Vec2F(1F / size, 1F / size);
 
 		BufferedImage atlasIMG = new BufferedImage((int) size, (int) size, BufferedImage.TYPE_INT_ARGB);
 		for (int i = 0; i < tiles.size(); i++) {
 			ImageInfo info = tiles.get(i);
 			drawImage(info.img, atlasIMG, (int) poses[i].getX(), (int) poses[i].getY());
 			Vec2F start = new Vec2F(poses[i].getX() / size, poses[i].getY() / size);
-			Vec2F end = new Vec2F((poses[i].getX() + info.img.getWidth()) / size,
-					(poses[i].getY() + info.img.getHeight()) / size);
+			Vec2F end = new Vec2F((poses[i].getX() + info.img.getWidth()) / size, (poses[i].getY() + info.img.getHeight()) / size);
 			uvs.put(info.name, new UVPair(start, end));
 		}
 
@@ -215,10 +212,6 @@ public class TextureAtlas {
 
 	public Texture2D getTexture() {
 		return atlas;
-	}
-
-	public Vec2F getPixelSize() {
-		return pixelSize;
 	}
 
 	public float getSize() {
