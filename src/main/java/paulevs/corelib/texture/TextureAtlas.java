@@ -32,12 +32,6 @@ public class TextureAtlas {
 	private final float size;
 
 	public TextureAtlas(String primal, HashSet<String> textures) {
-		File dir = new File("D:/BetterEnd/BetterEnd_1.16.3/src/main/resources/assets/betterend/textures/block");
-		for (File f: dir.listFiles()) {
-			if (f.getName().endsWith(".png")) {
-				textures.add(f.getAbsolutePath());
-			}
-		}
 		List<ImageInfo> tiles = loadTiles(textures);
 		tiles.add(new ImageInfo(EMPTY, "notile"));
 
