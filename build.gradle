@@ -1,7 +1,6 @@
 buildscript {
     repositories {
     	mavenCentral()
-		jcenter()
         maven {
             name = "Fabric"
             url = "https://maven.fabricmc.net/"
@@ -12,8 +11,12 @@ buildscript {
 		}
 	}
 	dependencies {
-        classpath 'com.github.Chocohead:Fabric-Loom:bbaa5d7'
+        classpath 'com.github.Chocohead:Fabric-Loom:361cd1c'
 	}
+}
+
+plugins {
+	id 'maven-publish'
 }
 
 apply plugin: "fabric-loom"
@@ -21,14 +24,19 @@ apply plugin: "fabric-loom"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+group = project.maven_group
 archivesBaseName = project.archives_base_name
 version = project.mod_version
-group = project.maven_group
 
 repositories {
+	mavenLocal()
 	maven { 
 		name = "Jitpack"
 		url "https://jitpack.io/"
+	}
+	maven {
+		name = "HalfOf2"
+		url 'https://storage.googleapis.com/devan-maven/'
 	}
 }
 
@@ -56,10 +64,14 @@ dependencies {
 		spec.version = "b1.7.3-14"
 	}
 
-	modImplementation "com.github.minecraft-cursed-legacy:cursed-fabric-loader:${project.loader_version}"
+	modImplementation "io.github.minecraft-cursed-legacy:cursed-fabric-loader:${project.loader_version}"
 
 	// API. You technically don't need it, but it's extremely useful for not having to write the same code in every mod.
-	modImplementation "com.github.minecraft-cursed-legacy:Cursed-Legacy-API:${project.api_version}"
+	modImplementation("io.github.minecraft-cursed-legacy:cursed-legacy-api:${project.api_version}") {
+		exclude group: project.maven_group
+		exclude module: 'B.1.7.3-CoreLib'
+		exclude module: project.archivesBaseName
+	}
 }
 
 processResources {
@@ -75,17 +87,27 @@ processResources {
 	}
 }
 
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	classifier("sources")
 	from sourceSets.main.allSource
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			afterEvaluate {
+				artifact(remapJar) {
+					builtBy remapJar
+				}
+
+				artifact(sourcesJar) {
+					builtBy remapSourcesJar
+				}
+			}
+		}
+	}
 }
